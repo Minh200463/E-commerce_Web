@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout.html}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/category.css}">
+<script type="text/javascript" th:src="@{/js/category.js}"></script>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-3">
+		<h4
+			class="border-bottom border-dark rounded-3 border-3 p-2 px-4 text-dark">Edition
+			Category</h4>
+			<span th:text="${text}"></span>
+		<div class="container">
+			<div class="row">
+				<!-- edit user -->
+				<div class="col-md-5">
+					<div class="card">
+						<div class="card-header bg-success text-white">
+							<h5 class="fw-bold">Add or Edit</h5>
+						</div>
+						<div class="card-body">
+							<form th:action="@{/category/save}" th:object=${category}
+								method="post">
+								<div class="row g-3">
+									<div class="col-lg-12">
+										<label for="categoryid" class="h5 p-0">ID Category</label> <input
+											type="text" id="categoryid" class="form-control fw-bold"
+											name="categoryid"
+											th:value="${(item != null)} ? ${item.categoryid} : ''"
+											placeholder="Auto-increment ID" readonly>
+								
+									</div>
+									<div class="col-lg-12">
+										<label for="categoryname" class="h5 p-0">CategoryName</label>
+										<input type="text" id="categoryname" class="form-control"
+											name="categoryname"
+											th:value="${item != null} ? ${item.categoryname} : ''"
+											placeholder="Enter categoryname...">
+									<span class="text-danger fw-bold mx-2" style="font-size: 0.8em" th:if="${#fields.hasErrors('categoryname')}" th:errors="*{categoryname}">Error Name</span>
+									</div>
+								</div>
+								<div class="text-center mt-4">
+
+									<div class="div d-flex justify-content-end">
+										<a th:href="@{/category/index}"
+											class="btn btn-outline-dark btn-reset"><i
+											class="bi bi-arrow-clockwise"></i></a>
+										<button class="btn btn-success btn-save mx-2"
+											formaction="/category/save">
+											<i class="bi bi-floppy2"></i>
+										</button>
+										<a th:if="${item != null}"
+											href="/category/delete/${categoryid}"
+											th:href="@{/category/delete/{id}(id=${item.categoryid})}"
+											class="btn btn-danger btn-delete"> <i class="bi bi-trash"></i>
+										</a>
+									</div>
+								</div>
+							</form>
+						</div>
+
+
+					</div>
+				</div>
+
+
+				<!-- list Category -->
+				<div class="col-md-7">
+					<div class="card">
+						<div class="card-header bg-warning">
+							<h5 class="fw-bold">List Category</h5>
+						</div>
+						<div class="card-body">
+							<table class="table table-striped ">
+								<thead>
+									<tr class="text-center">
+										<th scope="col">ID</th>
+										<th scope="col">CategoryName</th>
+										<th scope="col" class="text-end pe-5">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<!-- user1 -->
+									<tr th:each="item : ${items}" class="text-center">
+										<td th:text="${item.categoryid}"></td>
+										<td th:text="${item.categoryname}"></td>
+										<td class="text-end"><a class="btn btn-primary"
+											href="/category/edit/${categoryid}"
+											th:href="@{/category/edit/{id}(id=${item.categoryid})}"><i
+												class="bi bi-pencil-square"></i></a> <a class="btn btn-warning"
+											href="/category/delete/${categoryid}"
+											th:href="@{/category/delete/{id}(id=${item.categoryid})}"><i
+												class="bi bi-trash"></i></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- Thông báo -->
+		<div id="success-notification" th:if="${successMessage}" class="notification text-muted success d-flex align-content-center rounded-3" style="font-size: 0.9em">
+        <i class="bi bi-check-circle-fill mb-2 m-0 p-0"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+		</div>
+	</div>
+</body>
+</html>

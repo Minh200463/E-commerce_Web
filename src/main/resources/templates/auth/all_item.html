@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{auth/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<main layout:fragment="content" class="contai-infomation bg-secondary-subtle p-4">
+            <div class="container">
+                <div class="row">
+                    <section class="box-products-category m-3 pb-5">
+                        <div class="container">
+                            <div class="col bg-secondary-subtle">
+                                <div class="box-item bg-white rounded-2">
+                                    <div class="section-title-category d-flex justify-content-between">
+                                        <h5 class="p-3 fw-bolder text-success" th:text="${param.category}"></h5>
+                                        <div class="p-3 d-flex">
+                                            <form>
+                                                <div class="row gx-2">
+                                                  <div class="col-auto mb-2 mb-lg-0">
+                                                    <!-- Dropdown -->
+                                                    <div class="dropdown">
+                                                      <a class="btn btn-white btn-sm dropdown-toggle " href="#" id="priceFilterFormDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Search by price</a>
+                                            
+                                                      <div class="dropdown-menu dropdown-menu-end dropdown-card p-0" aria-labelledby="priceFilterFormDropdown" style="min-width: 21rem;">
+                                                        <!-- Card -->
+                                                        <div class="card card-sm">
+                                                          <div class="card-body">
+                                                            <div class="row justify-content-center">
+                                                              <div class="col">
+                                                                <span class="d-block small mb-1">Min price:</span>
+                                                                <input type="text" class="form-control form-control-sm" id="rangeSliderExampleDouble4MinResult">
+                                                              </div>
+                                            
+                                                              <div class="col">
+                                                                <span class="d-block small mb-1">Max price:</span>
+                                                                <input type="text" class="form-control form-control-sm" id="rangeSliderExampleDouble4MaxResult">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                            
+                                                          <div class="card-footer border-top">
+                                                            <div class="d-flex justify-content-end gap-2">
+                                                              <a class="btn btn-white btn-sm" href="#">Clear</a>
+                                                              <a class="btn btn-primary btn-sm" href="#">Save</a>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <!-- End Card -->
+                                                      </div>
+                                                    </div>
+                                                    <!-- End Dropdown -->
+                                                  </div>
+                                           
+                                                </div>
+                                                <!-- End Row -->
+                                              </form>
+                                           <form action="">
+                                            <select class="form-select form-control form-select-sm mx-2"
+                                            aria-label="Small select example">
+                                            <option value="1" selected>All</option>
+                                            <option value="2">A-Z</option>
+                                            <option value="3">Z-A</option>
+                                        </select>
+                                           </form>
+                                        </div>
+                                    </div>
+
+				
+				<!-- =================== ITEM ========================= -->
+				
+				
+                                    <div class="row m-0">
+                                        <div class="col-lg-3" th:each="item : ${items}">
+                                            <a th:href="@{/home/product_infomation/{id} (id = ${item.productid})}"  class="text-decoration-none">
+                                                <div class="product-small-box text-black p-3">
+                                                    <div class="box-img text-center">
+                                                        <img th:src="@{/images/{image} (image = ${item.image})}" width="200px" alt="" />
+                                                    </div>
+                                                    <div class="box-text-product pt-1">
+                                                        <div class="name-product">
+                                                            <span style="font-size: 0.85em" th:text="${item.productname}"></span>
+                                                        </div>
+                                                        <div class="price-box pt-3" style="font-size: 0.9em">
+                                                            <del
+                                                                style="color: rgb(130, 134, 158)"><i th:text="${item.price}"></i></del>
+                                                            <span style="color: blue" class="fw-bold" th:text="${item.discount}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+</body>
+</html>

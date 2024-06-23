@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{login/layout.html}">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<section layout:fragment="content" class="contai-login">
+            <!-- Jumbotron -->
+            <div id="wrapper" class="px-4 py-5 px-md-5 text-center text-lg-start">
+                <div class="container">
+                    <div class="row gx-lg-5 align-items-center">
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <h1 class="my-5 display-3 fw-bold ls-tight">
+                                The best offer <br />
+                                <span class="text-primary">for your business</span>
+                            </h1>
+                            <p style="color: hsl(218, 19%, 89%)">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                                quibusdam tempora at cupiditate quis eum maiores libero
+                                veritatis? Dicta facilis sint aliquid ipsum atque?
+                            </p>
+                        </div>
+
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <div class="card border-0"
+                                style="background-color: rgb(212, 212, 242,50%) !important; backdrop-filter: blur(10px);">
+                                <div class="card-body py-5 px-md-5">
+                                    <form th:action="@{/login/index}" method="post">
+                                    
+                                        <h1 class="fw-bold text-center mb-4"
+                                            style="color: rgb(89, 119, 188); font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                                            LOGIN</h1>
+
+                                            <div data-mdb-input-init class="form-outline mb-2">
+                                                <input type="text" id="username" name="username" class="form-control" placeholder=" " />
+                                                <label class="form-label" for="username">Username</label>
+                                            </div>
+                                            
+                                            <div data-mdb-input-init class="form-outline mb-2">
+                                                <input type="password" id="password" name="password" class="form-control" placeholder=" " />
+                                                <label class="form-label" for="password">Password</label>
+                                            </div>
+
+                                        <!-- Checkbox -->
+                                        <div class="form-check mb-4 d-flex justify-content-between">
+                                            <div>
+                                                <input class="form-check-input me-2" type="checkbox"  name="remember"
+                                                    id="remember" checked />
+                                                <label class="form-check-label" for="form2Example33">
+                                                    Remember me?
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="text-white-50">Fogot password</a>
+                                            </div>
+                                        </div>
+                                        
+                                        
+
+                                        <!-- Submit button -->
+                                        <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                            class="btn btn-primary form-control btn-block mb-2">
+                                            Sign in
+                                        </button>
+                         
+                                    <span th:if="${message}" th:text="${message}" class="text-danger"></span>
+                                 
+
+                                        <div class="mb-4 d-flex justify-content-between">
+                                            <label class="form-check-label" for="form2Example33">
+                                                Don't have an account? <a th:href="@{/register/index}" class="text-white-50">Sign up</a>
+                                            </label>
+                                        </div>
+
+
+                                        <!-- Register buttons -->
+                                        <div class="text-center">
+                                            <p>or login with:</p>
+                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-link btn-floating mx-1">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </button>
+
+                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-link btn-floating mx-1">
+                                                <i class="fab fa-google"></i>
+                                            </button>
+
+                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-link btn-floating mx-1">
+                                                <i class="fab fa-twitter"></i>
+                                            </button>
+
+                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-link btn-floating mx-1">
+                                                <i class="fab fa-github"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Thông báo -->
+		<div id="success-notification" th:if="${successMessage}" class="notification text-muted success d-flex align-content-center rounded-3" style="font-size: 1.1em">
+        <i class="bi bi-check-circle-fill mb-2" style="font-size: 0.9em"></i>
+        <span th:text="${successMessage}" style="font-size: 0.8em"></span>
+    </div>
+            <!-- Jumbotron -->
+        </section>
+</body>
+</html>

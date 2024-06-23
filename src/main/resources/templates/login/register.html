@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{login/layout.html}">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/register.css}">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section layout:fragment="content" class="contai-login">
+		<!-- Jumbotron -->
+		<div class="px-4 py-5 px-md-5 text-center text-lg-start"
+			style="background: url('/images/background.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+			<div class="container">
+				<div class="row gx-lg-5 align-items-center">
+					<div class="col-lg-6 mb-5 mb-lg-0">
+						<h1 class="my-5 display-3 fw-bold ls-tight">
+							The best offer <br /> <span class="text-primary">for your
+								business</span>
+						</h1>
+						<p style="color: hsl(218, 19%, 89%)">Lorem ipsum dolor sit
+							amet consectetur adipisicing elit. Eveniet, itaque accusantium
+							odio, soluta, corrupti aliquam quibusdam tempora at cupiditate
+							quis eum maiores libero veritatis? Dicta facilis sint aliquid
+							ipsum atque?</p>
+					</div>
+
+					<div class="col-lg-6 mb-5 mb-lg-0">
+						<div class="card border-0"
+							style="background-color: rgb(212, 212, 242, 50%) !important; backdrop-filter: blur(10px);">
+							<div class="card-body py-5 px-md-5">
+								<form th:action="@{/register/index}" th:object="${user}" method="post">
+									<h1 class="fw-bold text-center mb-4"
+										style="color: rgb(89, 119, 188); font-family: Verdana, Geneva, Tahoma, sans-serif;">
+										REGISTER</h1>
+
+									<!-- 2 column grid layout with text inputs for the first and last names -->
+									<div class="row">
+										<div class="col-md-6 mb-2">
+											<div data-mdb-input-init class="form-outline">
+												<input type="text" id="username" class="form-control"
+													name="username" th:value="${user.username}"/> <label class="form-label" for="username">Username</label>
+												<span class="text-danger mx-2"
+													th:if="${#fields.hasErrors('username')}"
+													th:errors="*{username}" style="font-size: 0.7em">Error Username</span>
+											</div>
+										</div>
+										<div class="col-md-6 mb-2">
+											<div data-mdb-input-init class="form-outline">
+												<input type="text" id="fullname" class="form-control"
+													name="fullname" th:value="${user.fullname}"/> <label class="form-label" for="fullname">Fullname</label>
+											<span class="text-danger mx-2"
+													th:if="${#fields.hasErrors('fullname')}"
+													th:errors="*{fullname}" style="font-size: 0.7em">Error Fullname</span>
+											</div>
+										</div>
+									</div>
+									<!-- Password input -->
+									<div data-mdb-input-init class="form-outline mb-3">
+										<input type="password" id="password" class="form-control"
+											name="password" /> <label class="form-label" for="password">Password</label>
+									<span class="text-danger mx-2"
+													th:if="${#fields.hasErrors('password')}"
+													th:errors="*{password}" style="font-size: 0.7em">Error Password</span>
+									</div>
+
+									<!-- Password input -->
+									<div data-mdb-input-init class="form-outline mb-3">
+										<input type="password" id="repassword" class="form-control" name="repassword" />
+										<label class="form-label" for="repassword">Repassword</label>
+									<span class="text-danger mx-2" th:if="${errorrepassword}" th:text="${errorrepassword}" style="font-size: 0.7em"></span>
+									</div>
+									<!-- Email input -->
+									<div data-mdb-input-init class="form-outline mb-3">
+										<input type="email" id="email" class="form-control"
+											name="email" th:value="${user.email}"/> <label class="form-label" for="email">Email</label>
+									<span class="text-danger mx-2"
+													th:if="${#fields.hasErrors('email')}"
+													th:errors="*{email}" style="font-size: 0.7em">Error Username</span>
+									</div>
+									<!-- Phone -->
+									<div data-mdb-input-init class="form-outline mb-4">
+										<input type="text" id="phone" class="form-control"
+											name="phone" th:value="${user.phone}"/> <label class="form-label" for="phone">Phone</label>
+									<span class="text-danger mx-2"
+													th:if="${#fields.hasErrors('phone')}"
+													th:errors="*{phone}" style="font-size: 0.7em">Error Phone</span>
+									</div>
+									<!-- Gender -->
+									<div data-mdb-input-init class="form-outline mb-3 d-flex ms-3">
+										<span class="form-label"
+											style="color: #555555; font-weight: bold; font-size: 0.9em"
+											for="form3Example3">Gender</span>
+										<div class="form-check form-check-inline m-0">
+											<input class="form-check-input p-0 mx-1" type="radio"
+												name="gender" id="inlineRadio1" value="true" checked>
+											<span class="form-check-label" for="inlineRadio1">Nam</span>
+										</div>
+										<div class="form-check form-check-inline ">
+											<input class="form-check-input mx-1 p-0" type="radio"
+												name="gender" id="inlineRadio2" value="false"> <span
+												class="form-check-label" for="inlineRadio2">Nữ</span>
+										</div>
+									</div>
+
+									<!-- Checkbox -->
+									<div class="form-check mb-4">
+										<input class="form-check-input me-2" type="checkbox" value=""
+											id="form2Example33" checked /> <label
+											class="form-check-label" for="form2Example33"> I
+											agree to the terms and conditions. </label>
+									</div>
+
+									<!-- Submit button -->
+									<button type="submit" data-mdb-button-init data-mdb-ripple-init
+										class="btn btn-primary form-control btn-block mb-2">
+										Sign up</button>
+
+									<div class="mb-4">
+										<label class="form-check-label" for="form2Example33">
+											Already have an account? <a th:href="@{/login/index}"
+											class="text-white-50">Login here</a>
+										</label>
+									</div>
+									<!-- Register buttons -->
+									<div class="text-center">
+										<p>or sign up with:</p>
+										<button type="button" data-mdb-button-init
+											data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+											<i class="fab fa-facebook-f"></i>
+										</button>
+
+										<button type="button" data-mdb-button-init
+											data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+											<i class="fab fa-google"></i>
+										</button>
+
+										<button type="button" data-mdb-button-init
+											data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+											<i class="fab fa-twitter"></i>
+										</button>
+
+										<button type="button" data-mdb-button-init
+											data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+											<i class="fab fa-github"></i>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- Jumbotron -->
+	</section>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{auth/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<section layout:fragment="content" class="box-cart-shopping bg-secondary-subtle pb-5">
+            <div class="container">
+                <div class="pt-2" th:if="${success}">
+                    <i class="bi bi-check2-circle fs-6 text-success"></i> <span class="text-success fw-bold" style="font-size: 0.8em" th:text="${success} + ' add to cart successfully!'"></span>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-8 p-2">
+                        <div class="bg-white rounded-2 p-2 pb-4">
+                            <span class="text-danger d-flex justify-content-center p-3 m-3" th:if="${{cartitem.size() <= 0}}"><i>There are no product in the cart!</i> </span>
+                           <br>
+                            <table class="table" th:unless="${cartitem.size() <= 0}">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="3">Product Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="align-middle" th:each="item : ${cartitem}">
+                                        <td><a th:href="@{/cart/remove/{id} (id=${item.productid})}"><i class="bi bi-x" style="font-size: 20px; "></i></a></td>
+                                        <td>
+                                            <img th:src="@{/images/{image}(image=${item.image})}" width="100px" alt="">
+                                        </td>
+                                        <td style="width: 300px;" th:text="${item.productname}"></td>
+                                        <td class="fw-bold" style="color: #1435c3;" th:text="'$'+${item.price}"></td>
+                                       <form th:action="@{/cart/update/{id} (id=${item.productid})}" method="post">
+                                       	 <td><input type="number" name="quantity" class="text-center" style="width: 50px;" th:value="${item.quantity}" onblur="this.form.submit()" min="1"></td>
+                                       </form>
+                                        <td class="fw-bold" style="color: #1435c3;" th:text="'$'+${item.price * item.quantity}"></td>
+                                    </tr>
+                                                                        
+                                </tbody>
+                            </table>
+                            <a class="btn btn-outline-danger" th:href="@{/home/index}" style="font-size: 0.8em;"
+                                data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                <i class="bi bi-arrow-left"></i>
+                                TIẾP TỤC XEM SẢN PHẨM</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 p-2">
+                        <div class="bg-white rounded-2 p-2 pb-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="2">Total cart</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 0.9em;" >
+                                    <tr class="align-middle">
+                                        <td><span>Temporary price</span></td>
+                                        <td class="fw-bold text-end" style="color: #1435c3; font-size: 0.9em;" th:text="'$'+${amount}"></td>
+                                    </tr>
+                                    <tr style="font-size: 1.1em;">
+                                        <td><span class="fw-bold text-danger">Total</span></td>
+                                        <td class="fw-bold text-end text-danger" th:text="'$'+${amount}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                <div class="d-flex justify-content-end pb-2">
+                                	<input type="text" class="form-control-sm border-1" placeholder="Mã gảm giá..."/>
+                                	<button class="btn btn-outline-primary btn-sm ms-2">Áp dụng</button>
+                                </div>
+                            <form>
+                                <button th:formaction="@{/checkout/view}" name="send" class="btn rounded-1 form-control text-white" style="font-size: 0.8em; background-color: #1435c3;">
+                            		ORDER
+                            	</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+</body>
+</html>

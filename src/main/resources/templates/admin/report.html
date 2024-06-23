@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:util="urn:java:org.thymeleaf.expression.Utility"
+	layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.box-search-date select {
+	padding: 2px 10px;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.box-search-date select:hover {
+	border-color: #555;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.box-search-date select:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-3 rounded-2"
+		style="font-size: 0.9em;">
+		<div class="div px-2 bg-danger rounded-2">
+			<h6 class="border-3 p-2 px-4 bg-light text-dark fw-bold">INCOME
+				STATEMENT</h6>
+		</div>
+
+		<div class="container-fluid p-0">
+			<div class="container-fluid">
+				<div class="row mt-3">
+					<div class="col-md-3 d-flex justify-content-center">
+						<div class="bg-white rounded-1 p-2 d-flex" style="width: 300px;">
+							<div class="box-icon rounded-2 p-2"
+								style="background-color: aquamarine;">
+								<i class="bi bi-tag-fill p-4 fs-1"></i>
+							</div>
+							<div class="info ms-3 mt-2 pt-2">
+								<h6 class="fw-bold text-danger">TỔNG SẢN PHẨM</h6>
+								<span class="fw-bold fs-6" th:text="${totalproduct} ? ${totalproduct} + ' sản phẩm' : ''"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center">
+						<div class="bg-white rounded-1 p-2 d-flex" style="width: 300px;">
+							<div class="box-icon rounded-2 p-2"
+								style="background-color: rgb(119, 195, 230, 0.5);">
+								<i class="bi bi-basket p-4 fs-1"></i>
+							</div>
+							<div class="info ms-3 mt-2 pt-2">
+								<h6 class="fw-bold text-danger">TỔNG ĐƠN HÀNG</h6>
+								<span class="fw-bold fs-6" th:text="${totalorder} ? ${totalorder}+' đơn hàng' : ''"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center">
+						<div class="bg-white rounded-1 p-2 d-flex" style="width: 300px;">
+							<div class="box-icon rounded-2 p-2"
+								style="background-color: rgb(227, 228, 155, 0.5);">
+								<i class="bi bi-bookmark-x p-4 fs-1"></i>
+							</div>
+							<div class="info ms-3 mt-2 pt-2">
+								<h6 class="fw-bold text-danger">HẾT HÀNG</h6>
+								<span class="fw-bold fs-6" th:text="${pOFS} ? ${pOFS}+' sản phẩm' :''"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center">
+						<div class="bg-white rounded-1 p-2 d-flex" style="width: 300px;">
+							<div class="box-icon rounded-2 p-2"
+								style="background-color: rgb(233, 123, 96, 0.5);">
+								<i class="bi bi-bar-chart p-4 fs-1"></i>
+							</div>
+							<div class="info ms-3 mt-2 pt-2">
+								<h6 class="fw-bold text-danger">TỔNG THU NHẬP</h6>
+								<span class="fw-bold fs-6" th:text="${totalrevenue} ? ${totalrevenue} : ''"></span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="bg-white align-midle pt-2 mt-3 rounded-2">
+				<div class="row">
+					<div class="col-md-12 py-3 px-5">
+						<div class="tile">
+							<div class="d-flex"
+								style="border-bottom: 2px solid rgb(227, 212, 9)">
+								<div class="box-title ">
+									<h5 class="tile-title fw-bold pb-2">DOANH
+										THU THEO NĂM</h5>
+								</div>
+								<div class="box-search-date ms-auto ">
+									<form th:action="@{/admin/report/index}" method="get">
+										<select id="year" name="year">
+											<option value="hide">-- Year --</option>
+											<option value="2020">2020</option>
+											<option value="2021">2021</option>
+											<option value="2022">2022</option>
+											<option value="2023">2023</option>
+											<option value="2024" selected>2024</option>
+										</select>
+										<button class="btn btn-primary btn-sm" type="submit">
+											<i class="bi bi-search" style="font-size: 1.2em"></i>
+										</button>
+									</form>
+								</div>
+							</div>
+							<div class="tile-body mt-4">
+								<table class="table table-hover table-bordered" id="sampleTable">
+									<thead>
+										<tr class="table-active">
+											<th style="width: 300px;">Tháng</th>
+											<th>Doanh thu</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="data : ${revenueData}">
+											<td th:text="'Tháng '+${data[0]}"></td>
+											<td th:text="'$'+${data[1]}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="bg-white align-midle pt-2 mt-3 rounded-2">
+				<div class="row">
+					<div class="col-md-12 py-3 px-5">
+						<div class="tile">
+							<div>
+								<h5 class="tile-title fw-bold pb-2"
+									style="border-bottom: 2px solid rgb(227, 212, 9)">TOP 10 SẢN PHẨM
+									BÁN CHẠY</h5>
+							</div>
+							<div class="tile-body mt-4">
+								<table class="table table-hover table-bordered" id="sampleTable">
+									<thead>
+										<tr>
+											<th>Mã sản phẩm</th>
+											<th>Tên sản phẩm</th>
+											<th>Giá tiền</th>
+											<th>Danh mục</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="item : ${itemselling}">
+											<td th:text="${item[0]}"></td>
+											<td th:text="${item[1]}"></td>
+											<td th:text="'$'+${item[2]}"></td>
+											<td th:text="${item[3]}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="bg-white align-midle pt-2 mt-3 rounded-2">
+				<div class="row">
+					<div class="col-md-12 py-3 px-5">
+						<div class="tile">
+							<div>
+								<h5 class="tile-title fw-bold pb-2"
+									style="border-bottom: 2px solid rgb(227, 212, 9)">TỔNG ĐƠN
+									HÀNG HÔM NAY</h5>
+							</div>
+							<div class="tile-body mt-4">
+								<table class="table table-hover table-bordered" id="sampleTable">
+									<thead>
+										<tr>
+											<th>ID đơn hàng</th>
+											<th>Khách hàng</th>
+											<th>Đơn hàng</th>
+											<th>Tổng tiền</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+										<tr th:each="item : ${totaltoday}">
+											<td th:text="${item[0]}"></td>
+											<td th:text="${item[1]}"></td>
+											<td th:text="${item[2]}"></td>
+											<td th:text="${item[3]}"></td>
+										</tr>
+										<tr class="fw-bold">
+											<td colspan="3">Total</td>
+											<td th:text="${totalAmout} ? ${totalAmout} : '$'"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="bg-white align-midle pt-2 mt-3 rounded-2 mb-5 pb-5">
+				<div class="row">
+					<div class="col-md-12 py-3 px-5">
+						<div class="tile">
+							<div>
+								<h5 class="tile-title fw-bold pb-2"
+									style="border-bottom: 2px solid rgb(227, 212, 9)">SẢN PHẨM
+									ĐÃ HẾT</h5>
+							</div>
+							<div class="tile-body mt-4">
+								<table class="table table-hover table-bordered" id="sampleTable">
+									<thead>
+										<tr>
+											<th>Mã sản phẩm</th>
+											<th>Tên sản phẩm</th>
+											<th>Giá tiền</th>
+											<th>Ảnh</th>
+											<th>Số lượng</th>
+											<th>Tình trạng</th>
+											<th>Danh mục</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="item : ${itemsoutofstock}" class="align-middle text-center">
+											<td style="width: 80px" th:text = "${item.productid}"></td>
+											<td class="text-start" style="width: 450px" th:text = "${item.productname}"></td>
+											<td th:text = "'$'+${item.price}"></td>
+											<td> <img alt="" th:src="@{/images/{image} (image = ${item.image})}" width="50px"> </td>
+											<td th:text = "${item.quantity}"></td>
+											<td>
+											<span
+										th:text="${item.status} ? 'In Stock' : 'Out Of Stock'"
+										class="px-2 p-1 rounded-2"
+										style="color: white; font-size: 0.9em; background-color: #EE0000;"></span>
+											</td>
+											<td th:text = "${item.categories.categoryname}"></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

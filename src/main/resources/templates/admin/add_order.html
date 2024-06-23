@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-3 rounded-2" style="font-size: 0.9em;">
+                    <div class="div px-2 bg-danger rounded-2">
+                        <h6 class="border-3 p-2 px-4 bg-light text-dark">Create new order</h6>
+                    </div>
+
+                    <div class="container-fluid p-0">
+                        <div class="bg-white align-midle pt-2 rounded-2 pb-4">
+                            <h5 class="p-3 fw-bold" style="color: rgb(72, 138, 199);">Enter infomation order</h5>
+                            <hr class="m-0">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="validationCustom01" class="form-label fw-bold">ID order</label>
+                                        <input type="text" class="form-control bg-secondary-subtle"
+                                            id="validationCustom01" style="font-size: 1em;"
+                                            placeholder="Auto-increment ID" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="validationCustom01" class="form-label fw-bold">ID Product</label>
+                                        <input type="text" class="form-control bg-secondary-subtle"
+                                            id="validationCustom01" style="font-size: 1em;" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="validationCustom01" class="form-label fw-bold">Name product</label>
+                                        <input type="text" class="form-control bg-secondary-subtle"
+                                            id="validationCustom01" style="font-size: 1em;" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mt-4">
+                                        <label for="validationCustom01" class="form-label fw-bold">Quantity</label>
+                                        <input type="number" class="form-control bg-secondary-subtle"
+                                            id="validationCustom01" style="font-size: 1em;" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-4">
+                                        <label for="validationCustom03" class="form-label fw-bold">Status</label>
+                                        <div class="input-group has-validation">
+                                            <select class="form-select form-select-sm bg-secondary-subtle text-center"
+                                                aria-label="Small select example">
+                                                <option selected>-Select status-</option>
+                                                <option value="1">Processing</option>
+                                                <option value="2">Shipped</option>
+                                                <option value="3">Delivering</option>
+                                                <option value="4">Complete</option>
+                                                <option value="5">Cancelled</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please choose a username.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <div class="box-description-product">
+                                            <label for="validationCustom05" class="form-label fw-bold">Note</label>
+                                            <textarea class="form-control bg-secondary-subtle" name="note" rows="3"
+                                                id="note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-info-products p-3" style="font-size: 0.9em;">
+
+                                            <form class="row g-3 needs-validation">
+                                                <span class="fw-bold">Customer</span>
+                                                <hr class="m-2 border-3 text-primary">
+
+                                                <div class="col-md-6">
+                                                    <label for="validationCustom02"
+                                                        class="form-label fw-bold">Name</label>
+                                                    <input type="text" class="form-control bg-secondary-subtle"
+                                                        style="font-size: 1em;" id="validationCustom02" required>
+                                                    <div class="valid-feedback">
+                                                        Looks good!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="validationCustomUsername"
+                                                        class="form-label fw-bold">Phone</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="text" class="form-control bg-secondary-subtle"
+                                                            style="font-size: 1em;" id="validationCustomUsername"
+                                                            aria-describedby="inputGroupPrepend" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter phone!
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="validationCustomUsername"
+                                                        class="form-label fw-bold">Address</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="text" class="form-control bg-secondary-subtle"
+                                                            style="font-size: 1em;" id="validationCustomUsername"
+                                                            aria-describedby="inputGroupPrepend" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter address.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-info-products p-3" style="font-size: 0.9em;">
+
+                                            <form class="row g-3 needs-validation">
+                                                <span class="fw-bold">Consignee</span>
+                                                <hr class="m-2 border-3 text-primary">
+
+                                                <div class="col-md-6">
+                                                    <label for="validationCustom02"
+                                                        class="form-label fw-bold">Name</label>
+                                                    <input type="text" class="form-control bg-secondary-subtle"
+                                                        style="font-size: 1em;" id="validationCustom02"
+                                                        value="Minh Đặng" required disabled>
+                                                    <div class="valid-feedback">
+                                                        Looks good!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="validationCustomUsername"
+                                                        class="form-label fw-bold">Phone</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="text" class="form-control bg-secondary-subtle"
+                                                            style="font-size: 1em;" id="validationCustomUsername"
+                                                            aria-describedby="inputGroupPrepend" value="038462832"
+                                                            required disabled>
+                                                        <div class="invalid-feedback">
+                                                            Please enter phone!
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="validationCustomUsername"
+                                                        class="form-label fw-bold">Address</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="text" class="form-control bg-secondary-subtle"
+                                                            style="font-size: 1em;" id="validationCustomUsername"
+                                                            aria-describedby="inputGroupPrepend" value="9 thanh vinh 14"
+                                                            required disabled>
+                                                        <div class="invalid-feedback">
+                                                            Please enter address.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-button-function text-end mt-3 mx-4">
+                                    <a href="" class="btn btn-success"><i class="bi bi-floppy2"></i></a>
+                                    <a href="" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+</body>
+</html>

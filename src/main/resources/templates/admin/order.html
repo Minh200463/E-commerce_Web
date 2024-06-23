@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:src="@{/js/order.js}"></script>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-3 rounded-2"
+		style="font-size: 0.8em;">
+		<div class="row">
+			<div class="col-8">
+				<div class="div px-2 bg-danger rounded-2">
+					<h6 class="border-3 p-2 px-4 bg-light text-dark">List Orders</h6>
+				</div>
+				<div class="container-fluid p-0">
+					<div class="bg-white align-middle pt-2 rounded-2">
+						<div class="box-button-funtion p-2">
+							<a type="button" class="btn" th:href="@{/admin/order/addorders}"
+								style="background-color: rgb(109, 233, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+								<i class="bi bi-plus "></i>Create new order
+							</a>
+							<button type="button" class="btn"
+								style="background-color: rgb(218, 222, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+								<i class="bi bi-printer-fill"></i> Xuất excel
+							</button>
+							<button type="button" class="btn"
+								style="background-color: rgb(226, 109, 89); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+								<i class="bi bi-trash-fill"></i> Xóa tất cả
+							</button>
+						</div>
+						<hr class="m-2">
+						<div class="box-list-products px-2 pb-5">
+							<div class="box-search d-flex justify-content-between pb-2">
+								<div class="box-total-product">
+									<span class="fw-bold">Total quantity of products: 10</span>
+								</div>
+								<div class="box-search">
+									<div class="container-fluid">
+										<form class="d-flex" role="search" method="post"
+											th:action="@{/admin/order/search}">
+											<input class="form-control me-1" name="keyword"
+												style="height: 35px; font-size: 0.9em;" type="search"
+												placeholder="Search..." aria-label="Search">
+											<button type="submit" class="btn"
+												style="background-color: rgb(76, 201, 215); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+												<i class="bi bi-search"></i>
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="bg-white rounded-2 p-2 pb-4">
+								<table class="table table-bordered text-center">
+									<thead class="table-secondary">
+										<tr>
+											<th scope="col">ID Order</th>
+											<th scope="col">Name Customer</th>
+											<th scope="col">Address</th>
+											<th scope="col">Total Price</th>
+											<th scope="col">Date order</th>
+											<th scope="col">Status</th>
+											<th scope="col">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="order : ${orderlist}" class="align-middle">
+											<td style="width: 25px" th:text="${order.orderid}"></td>
+											<td th:text="${order.userid.fullname}"></td>
+											<td th:text="${order.userid.address}"></td>
+											<td th:text="'$'+${order.totalamount}"></td>
+											<td th:text="${#dates.format(order.orderdate, 'dd-MM-yyyy')}"></td>
+											<td th:switch="${order.status}"><span th:case="1"
+												class="p-1 rounded-2 text-white"
+												style="font-size: 0.9em; background-color: rgb(71, 158, 202);">
+													Processing </span> <span th:case="2"
+												class="p-1 rounded-2 text-white"
+												style="font-size: 0.9em; background-color: rgb(223, 223, 17);">
+													Shipped </span> <span th:case="3" class="p-1 rounded-2 text-white"
+												style="font-size: 0.9em; background-color: rgb(0, 255, 255);">
+													Delivered </span> <span th:case="0"
+												class="p-1 rounded-2 text-white"
+												style="font-size: 0.9em; background-color: rgb(255, 0, 0);">
+													Cancelled </span></td>
+
+											<td><a class="btn btn-primary" style="font-size: 0.8em;"
+												th:href="@{/admin/order/details/{id} (id=${order.orderid})}">
+													<i class="bi bi-pencil-square"></i>
+											</a></td>
+
+										</tr>
+										<!-- Repeat similar structure for more orders as needed -->
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="box-pagination d-flex justify-content-center">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item"><a class="page-link" href="#"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#"
+										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<section class="gradient-custom">
+					<div class="row d-flex justify-content-center align-items-center">
+						<div class="card" style="border-radius: 10px;">
+							<div
+								class="card-header d-flex justify-content-between align-items-center">
+								<h5 class="text-muted mb-0">
+									Order Information <span style="color: #a8729a;">#028425</span>
+								</h5>
+								<button type="button" class="btn-close" aria-label="Close"
+									id="close-order-info"></button>
+							</div>
+							<div class="card-body p-0">
+								<div class="mb-4">
+									<p class="lead fw-normal mb-0 mt-2" style="color: #a8729a;">Customer
+										Information</p>
+									<div class="box-info-customer">
+										<dl class="row">
+											<div class="col-6">
+												<div>
+													<span class="fw-bold col-sm-4 mt-2">Name : </span> <span
+														th:text="${order} ? ${order.userid.fullname} : ''"></span>
+												</div>
+												<div>
+													<span class="fw-bold col-sm-4 mt-2">Phone : </span> <span
+														th:text="${order} ? ${order.userid.phone} : ''"></span>
+												</div>
+												<div>
+													<span class="fw-bold col-sm-4 mt-2">Address : </span> <span
+														th:text="${order} ? ${order.userid.address} : ''"></span>
+												</div>
+											</div>
+											<div class="col-6">
+												<div>
+													<span class="fw-bold col-sm-4 mt-2">Date Order : </span><span
+														th:text="${order} ? ${#dates.format(order.orderdate, 'dd-MM-yyyy HH:mm:ss')}"></span>
+												</div>
+												<div>
+													<span class="fw-bold col-sm-4 mt-2">Email : </span><span
+														th:text="${order} ? ${order.userid.email} : ''"></span>
+												</div>
+											</div>
+										</dl>
+									</div>
+								</div>
+								<div class="card shadow-0 border mb-4">
+									<div class="card-body">
+										<div th:each="item : ${odetails}" th:if="${odetails}">
+											<div class="box-img d-flex justify-content-center">
+												<img
+													th:src="@{/images/{image} (image=${item.productid.image})}"
+													class="img-fluid" width="100px" alt="Phone">
+											</div>
+											<div class="row">
+												<div class="col-9">
+													<p class="text-muted mb-0"
+														th:text="${item} ? ${item.productid.productname} : ''"></p>
+												</div>
+												<div class="col-3 p-0 m-0">
+													<p class="text-muted mb-0 p-0">
+														<span class="fw-bold me-2">Price</span> <span
+															th:text="'$'+${item.productid.price}"></span>
+													</p>
+													<span class="ms-3" th:text="${item.quantity}"></span>
+													<p class="text-muted mb-0 p-0">
+														<span class="fw-bold me-2">Total</span> <span
+															th:text="'$'+${item.unitprice}"></span>
+													</p>
+												</div>
+											</div>
+
+										</div>
+										<hr class="mb-4"
+											style="background-color: #e0e0e0; opacity: 1;">
+									</div>
+								</div>
+
+								<div class="d-flex justify-content-end mb-4">
+									<p class="text-muted mb-0 fs-6">
+										<span class="fw-bold me-2 fs-6">Total</span><span
+											th:text="${order} ? '$'+${order.totalamount} : '$'"></span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

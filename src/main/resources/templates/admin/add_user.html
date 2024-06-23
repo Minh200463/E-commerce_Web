@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+<script type="text/javascript" th:src="@{/js/user.js}"></script>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-3 rounded-2"
+		style="font-size: 0.9em;">
+		<div class="div px-2 bg-danger rounded-2">
+			<h6 class="border-3 p-2 px-4 bg-light text-dark">Create new user</h6>
+		</div>
+
+		<div class="container-fluid p-0">
+			<div class="bg-white align-midle pt-2 rounded-2">
+				<h5 class="p-3 fw-bold" style="color: rgb(72, 138, 199);">Enter
+					infomation user</h5>
+				<hr class="m-0">
+				<div class="form-info-products p-3" style="font-size: 0.9em;">
+					<form class="row g-3 needs-validation" th:action="@{/user/save}"
+						th:object="${user}" method="post">
+						<div class="col-md-6">
+							<label for="validationCustom01" class="form-label fw-bold">ID
+								User</label> <input type="text" class="form-control bg-secondary-subtle"
+								id="validationCustom01" style="font-size: 1em;" name="userid"
+								placeholder="Auto-increment ID"
+								th:value="${user} ? ${user.userid} : ''" readonly>
+							<div class="valid-feedback">Looks good!</div>
+						</div>
+
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Username</label>
+							<input type="text" class="form-control bg-secondary-subtle"
+								style="font-size: 1em;" id="validationCustom05" name="username"
+								th:value="${user} ? ${user.username} : ''"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error
+								Username</span>
+						</div>
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Fullname</label>
+							<input type="text" class="form-control bg-secondary-subtle"
+								style="font-size: 1em;" id="validationCustom05" name="fullname"
+								
+								th:value="${user} ? ${user.fullname} : ''"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}">Error
+								Fullname</span>
+						</div>
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Password</label>
+							<input type="password" class="form-control bg-secondary-subtle"
+								style="font-size: 1em;" id="validationCustom05" name="password"
+								
+								th:value="${user} ? ${user.password} : ''"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error
+								Password</span>
+						</div>
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Phone</label>
+							<input type="number" class="form-control bg-secondary-subtle"
+								style="font-size: 1em;" id="validationCustom05" name="phone"
+								 th:value="${user} ? ${user.phone} : ''">
+							<span class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Error
+								Phone</span>
+						</div>
+
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Email</label>
+							<input type="email" class="form-control bg-secondary-subtle"
+								style="font-size: 1em;" id="validationCustom05" name="email"
+								th:value="${user} ? ${user.email} : ''">
+							<span class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error
+								Email</span>
+						</div>
+
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Gender</label>
+							<div class="form-outline d-flex">
+								<div class="form-check form-check me-3">
+									<input class="form-check-input"
+										 type="radio" name="gender"
+										id="inlineRadio1" value="true"
+										th:checked="${user == null or user.gender}"> <label
+										class="form-check-label" for="inlineRadio1">Nam</label>
+								</div>
+								<div class="form-check form-check">
+									<input class="form-check-input" 
+										type="radio" name="gender" id="inlineRadio2" value="false"
+										th:checked="${user != null and !user.gender}"> <label
+										class="form-check-label" for="inlineRadio2">Nữ</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="box-description-product">
+								<label for="validationCustom05" class="form-label fw-bold">Address</label>
+								<textarea class="form-control bg-secondary-subtle" rows="3"
+									id="address" style="font-size: 1em" name="address"
+									th:text="${user} ? ${user.address} : ''"></textarea>
+							</div>
+							<span class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Error
+								Address</span>
+						</div>
+
+						<div class="col-12 text-end mt-5">
+							<a class="btn btn-outline-dark" th:href="@{/user/adduser}">Reset</a>
+							<button class="btn btn-primary" id="successButton" type="submit">Save</button>
+							<div class="bg-success" th:if="${message}" id="successMessage">
+								<span class="fw-bold"><i class="bi bi-check-circle mx-2"
+									th:text=${message}></i></span>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<!-- Thông báo thành công -->
+    <div id="success-notification" th:if="${successMessage}" class="notification text-muted success d-flex align-content-center rounded-3" style="font-size: 1.1em">
+        <i class="bi bi-check-circle-fill mb-2"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+<script type="text/javascript" th:src="@{/js/user.js}"></script>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-3 rounded-2"
+		style="font-size: 0.9em;">
+		<div class="div px-2 bg-danger rounded-2">
+			<h6 class="border-3 p-2 px-4 bg-light text-dark">List User</h6>
+		</div>
+
+		<div class="container-fluid p-0">
+			<div class="bg-white align-midle pt-2 rounded-2">
+				<div class="box-button-funtion p-2">
+					<a type="button" class="btn" th:href="@{/user/adduser}"
+						style="background-color: rgb(109, 233, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+						<i class="bi bi-plus "></i>Create new user
+					</a>
+					<button type="button" class="btn"
+						style="background-color: rgb(218, 222, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+						<i class="bi bi-printer-fill"></i> Xuất excel
+					</button>
+
+					<button class="btn"
+						style="background-color: rgb(226, 109, 89); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+						<i class="bi bi-trash-fill"></i> Xóa tất cả
+					</button>
+
+				</div>
+				<hr class="m-2">
+				<div class="box-list-products px-2 pb-5">
+					<div class="box-search d-flex justify-content-between pb-2">
+						<div class="box-total-product">
+							<span class="fw-bold">Total quantity of products: 10</span>
+						</div>
+						<div class="box-search">
+							<div class="container-fluid">
+								<form class="d-flex" th:action="@{/user/search}" method="post">
+									<input class="form-control me-1"
+										style="height: 35px; font-size: 0.9em;" type="search"
+										placeholder="Search..." aria-label="Search" name="keyword">
+									<button class="btn"
+										style="background-color: rgb(76, 201, 215); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+										<i class="bi bi-search"></i>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="bg-white rounded-2 p-2 pb-4">
+						<table class="table table-bordered text-center">
+							<thead class="table-secondary">
+								<tr>
+									<th scope="col">ID user</th>
+									<th scope="col">Username</th>
+									<th scope="col">Fullname</th>
+									<th scope="col">Gender</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Address</th>
+									<th scope="col">Email</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="align-middle" th:each="item : ${items}">
+									<td th:text="${item.userid}"></td>
+									<td th:text="${item.username}"></td>
+									<td th:text="${item.fullname}"></td>
+									<td th:text="${item.gender} ? 'Male' : 'Female' "></td>
+									<td th:text="${item.phone}"></td>
+									<td th:text="${item.address}"></td>
+									<td th:text="${item.email}"></td>
+									<td><a class="btn btn-primary" style="font-size: 0.8em;"
+										th:href="@{/user/edit/{id} (id = ${item.userid})}"><i
+											class="bi bi-pencil-square"></i></a> <a class="btn btn-warning"
+										style="font-size: 0.8em;"
+										th:href="@{/user/delete/{id} (id = ${item.userid})}"><i
+											class="bi bi-trash"></i></a></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="box-pagination d-flex justify-content-center"
+					th:if="${items != null}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:classappend="${currentPage == 0} ? 'disabled'"><a
+								class="page-link"
+								th:href="@{'index?p=' + (${currentPage} - 1) + '&keyword=' + ${keyword}}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"
+								th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+								th:classappend="${currentPage == i} ? 'active'"><a
+								class="page-link"
+								th:href="@{'index?p=' + ${i} + '&keyword=' + ${keyword}}"
+								th:text="${i + 1}"></a></li>
+							<li class="page-item"
+								th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+								<a class="page-link"
+								th:href="@{'index?p=' + (${currentPage} + 1) + '&keyword=' + ${keyword}}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

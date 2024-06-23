@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{auth/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<main layout:fragment="content" class="bg-secondary-subtle">
+		<!-- SLIDE -->
+		<section class="mt-1">
+			<div class="container">
+				<div class="row">
+					<div class="col-9">
+						<div class="box-carousel">
+							<div id="carouselExampleInterval" class="carousel slide"
+								data-bs-ride="carousel">
+								<div class="carousel-inner rounded-1">
+									<div class="carousel-item active" data-bs-interval="2000">
+										<img th:src="@{/images/slide1.jpg}" class="d-block w-100"
+											height="375px" alt="..." />
+									</div>
+									<div class="carousel-item" data-bs-interval="2000">
+										<img th:src="@{/images/slide2.jpg}" class="d-block w-100"
+											height="375px" alt="..." />
+									</div>
+									<div class="carousel-item" data-bs-interval="2000">
+										<img th:src="@{/images/slide3.jpg}" class="d-block w-100"
+											height="375px" alt="..." />
+									</div>
+								</div>
+								<button class="carousel-control-prev" type="button"
+									data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button"
+									data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-3 p-0">
+						<div class="box-banner1 mb-2">
+							<a href=""><img
+								th:src="@{/images/banner_ip13.png}" class="rounded-1" alt=""
+								width="320px" height="150px" /></a>
+						</div>
+						<div class="box-banner1">
+							<a href=""><img
+								th:src="@{/images/642e3a70b5a57.jpg}" class="rounded-1" alt=""
+								width="320px" height="217px" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="box-products m-2">
+			<div class="container">
+				<div class="col bg-secondary-subtle">
+					<div class="title flash-sale">
+						<h4 class="p-3 text-center fw-bold" style="color: #008000">
+							<i class="bi bi-lightning-charge-fill text-warning"></i> FLASH
+							SALE
+						</h4>
+					</div>
+					<div class="box-item bg-white rounded-2">
+						<div class="row m-0">
+							<div class="col-lg-3" th:each="item : ${items}">
+								<a th:href="@{/home/product_infomation/{id} (id = ${item.productid})}" class="text-decoration-none">
+									<div class="product-small-box text-black p-3">
+										<div class="box-img text-center">
+											<img th:src="@{/images/{image} (image= ${item.image})}" width="200px" alt="" />
+										</div>
+										<div class="box-text-product pt-1">
+											<div class="name-product">
+												<span style="font-size: 0.85em" th:text="${item.productname}"></span>
+											</div>
+											<div class="price-box pt-3" style="font-size: 0.9em">
+												<del style="color: rgb(130, 134, 158)">
+													<i th:text="'$'+${item.discount}"></i>
+												</del>
+												<span style="color: blue" class="fw-bold ms-1" th:text="'$'+${item.price}"></span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- SECSION2 -->
+		<section class="box-products-category m-3 ">
+			<div class="container">
+				<div class="col bg-secondary-subtle">
+					<div class="box-item bg-white rounded-2">
+						<div class="section-title-category d-flex justify-content-between">
+							<h5 class="p-3 fw-bolder text-success">LAPTOP</h5>
+							<a th:href="@{/home/index(category='LAPTOP')}" class=" m-1 p-2 text-decoration-none">Xem tất cả >></a>
+						</div>
+						<div class="row m-0">
+							<div class="col-lg-3" th:each="item : ${item_laptop}">
+								<a th:href="@{/home/product_infomation/{id} (id = ${item.productid})}" class="text-decoration-none">
+									<div class="product-small-box text-black p-3">
+										<div class="box-img text-center">
+											<img th:src="@{/images/{image} (image = ${item.image})}" width="200px" alt="" />
+										</div>
+										<div class="box-text-product pt-1">
+											<div class="name-product">
+												<span style="font-size: 0.85em" th:text="${item.productname}"></span>
+											</div>
+											<div class="price-box pt-3" style="font-size: 0.9em">
+												<del th:if="${item.discount > 0}" style="color: rgb(130, 134, 158)">
+													<i th:text="'$'+${item.price}"></i>
+												</del>
+												<span style="color: blue" class="fw-bold ms-1" th:text="'$'+${item.discount}"></span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- SECSION2 -->
+		<section class="box-products-category m-3 pb-5">
+			<div class="container">
+				<div class="col bg-secondary-subtle">
+					<div class="box-item bg-white rounded-2">
+						<div class="section-title-category d-flex justify-content-between">
+							<h5 class="p-3 fw-bolder text-success">MACBOOK</h5>
+							<a th:href="@{/home/index(category='MACBOOK')}" class=" m-1 p-2 text-decoration-none">Xem tất cả >></a>
+						</div>
+						<div class="row m-0">
+							<div class="col-lg-3" th:each="item : ${item_macbook}">
+								<a th:href="@{/home/product_infomation/{id} (id = ${item.productid})}" class="text-decoration-none">
+									<div class="product-small-box text-black p-3">
+										<div class="box-img text-center">
+											<img th:src="@{/images/{image} (image = ${item.image})}" width="200px" alt="" />
+										</div>
+										<div class="box-text-product pt-1">
+											<div class="name-product">
+												<span style="font-size: 0.85em" th:text="${item.productname}"></span>
+											</div>
+											<div class="price-box pt-3" style="font-size: 0.9em">
+												<del th:if="${item.discount > 0}" style="color: rgb(130, 134, 158)">
+													<i th:text="'$'+${item.discount}"></i>
+												</del>
+												<span style="color: blue" class="fw-bold ms-1" th:text="'$'+${item.price}"></span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>

@@ -1,0 +1,134 @@
+#wrapper {
+	background: url('/images/background.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+body {
+	font-family: 'Poppins', sans-serif;
+}
+
+.contai-login {
+	min-height: 100vh;
+	/* Ensure the container covers the full viewport height */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.contai-login .container {
+	max-width: 100%; /* Make sure the container is full width */
+	padding: 0; /* Remove default padding */
+}
+
+.px-4.py-5.px-md-5.text-center.text-lg-start {
+	background-size: cover;
+	background-position: center;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card {
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(10px);
+	border-radius: 10px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-outline {
+	position: relative;
+	margin-bottom: 1.5rem;
+}
+
+.form-outline input {
+	background: rgba(255, 255, 255, 0.1);
+	border: none;
+	border-radius: 5px;
+	padding: 1rem;
+	font-size: 1rem;
+	transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-outline input:focus {
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	outline: none;
+}
+
+.form-outline label {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	font-size: 1rem;
+	color: #666;
+	pointer-events: none;
+	transition: 0.2s ease all;
+}
+
+.form-outline input:focus ~ label, .form-outline input:not(:placeholder-shown) 
+	~ label {
+	top: -0.5rem;
+	left: 0.8rem;
+	font-size: 0.75rem;
+	padding: 0 0.2rem;
+	color: #007bff;
+}
+
+.btn-primary {
+	background-color: #007bff;
+	border: none;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+	transform: translateY(-3px);
+}
+
+.btn-link {
+	color: #007bff;
+	transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+	color: #0056b3;
+	text-decoration: none;
+}
+
+.card-body p {
+	color: #fff;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 80px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.notification.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.notification .bi {
+    font-size: 20px;
+}
+
+.fade-out {
+    opacity: 0;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/product.css}">
+<script type="text/javascript" th:src="@{/js/product.js}"></script>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mt-3 rounded-2"
+		style="font-size: 0.9em;">
+		<div class="div px-2 bg-danger rounded-2">
+			<h6 class="border-3 p-2 px-4 bg-light text-dark">Create new
+				product</h6>
+		</div>
+
+		<div class="container-fluid p-0">
+			<div class="bg-white align-midle pt-2 rounded-2">
+				<h5 class="p-3 fw-bold" style="color: rgb(72, 138, 199);">Enter
+					infomation product</h5>
+				<hr class="m-0">
+
+
+
+				<div class="form-info-products p-3" style="font-size: 0.9em;">
+					<form class="row g-3 needs-validation" th:action="@{/product/save}"
+						th:object="${product}" enctype="multipart/form-data" method="post">
+						<div class="col-md-3">
+							<label for="validationCustom01" class="form-label fw-bold">ID
+								product</label> <input type="text"
+								th:value="${item} ? ${item.productid}"
+								class="form-control bg-secondary-subtle" id="productid"
+								name="productid" style="font-size: 1em;"
+								placeholder="Auto-increment ID" required readonly>
+						</div>
+						<div class="col-md-6">
+							<label for="validationCustom02" class="form-label fw-bold">Name
+								product</label> <input type="text"
+								th:value="${item} ? ${item.productname}"
+								class="form-control bg-secondary-subtle" style="font-size: 1em;"
+								id="productname" name="productname"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('productname')}"
+								th:errors="*{productname}">Error Name</span>
+						</div>
+						<div class="col-md-3">
+							<label for="validationCustomUsername" class="form-label fw-bold">Quantity</label>
+							<div class="input-group has-validation">
+								<input type="number" class="form-control bg-secondary-subtle"
+									th:value="${item} ? ${item.quantity}" style="font-size: 1em;"
+									id="quantity" name="quantity" value="0"
+									aria-describedby="inputGroupPrepend" onblur="updateStatus()">
+							</div>
+							<span class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Error
+								quantity</span>
+						</div>
+						<div class="col-md-3">
+							<label for="validationCustomUsername" class="form-label fw-bold">Status</label>
+							<div class="input-group has-validation">
+								<select class="form-select form-select-sm bg-secondary-subtle"
+									id="status" name="status" aria-label="Small select example">
+									<option>-Select status-</option>
+									<option value="1"
+										th:selected="${item} ? ${item.status == true}">In
+										Stock</option>
+									<option value="0"
+										th:selected="${item} ? ${item.status == false}">Out
+										Of Stock</option>
+								</select>
+								<div class="invalid-feedback">Please choose a username.</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="validationCustom03" class="form-label fw-bold">Category</label>
+							<div class="input-group has-validation">
+								<select class="form-select form-select-sm bg-secondary-subtle"
+									aria-label="Small select example" name="categories"
+									id="categories">
+									<option>Select categories</option>
+									<option th:each="category : ${categories}"
+										th:value="${category.categoryid}"
+										th:text="${category.categoryname}"
+										th:selected=" ${item} ? ${category.categoryid == item.categories.categoryid}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="validationCustom05" class="form-label fw-bold">Price</label>
+							<input type="text" class="form-control bg-secondary-subtle"
+								th:value="${item} ? ${item.price}" style="font-size: 1em;"
+								id="price" name="price"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Error
+								price</span>
+						</div>
+						<div class="col-md-3">
+							<label for="validationCustom05" class="form-label fw-bold">Discount</label>
+							<input type="text" class="form-control bg-secondary-subtle"
+								th:value="${item} ? ${item.discount}" style="font-size: 1em;"
+								id="discount" name="discount"> <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}">Error
+								discount</span>
+						</div>
+						<div class="col-md-6">
+							<label for="validationCustom05" class="form-label fw-bold">Image</label>
+							<div class="preview-container justify-content-start">
+
+								<label class="file-input-lable" for="file-input">Upload
+									Image</label>
+								<div class="preview" style="background-color: white">
+									<img id="img-preview"
+										th:src="${item} ? @{/images/{image}(image=${item.image})} : ''"
+										src="/images/${item.image}" alt="No image uploaded"
+										style="width: 250px;" /> <a
+										class="btn delete-button text-danger" id="delete-button"><i
+										class="bi bi-x-circle-fill"></i></a> <input accept="image/*"
+										type="file" id="file-input" name="imageFile" />
+								</div>
+
+							</div>
+							<input type="hidden" th:name="imageName"
+								th:value="${item} ? ${item.image}" />
+						</div>
+
+						<div class="col-md-6 mb-4">
+							<div class="box-description-product">
+								<label for="validationCustom05" class="form-label fw-bold">Description</label>
+								<textarea class="form-control bg-secondary-subtle"
+									th:text="${item} ? ${item.description}" name="description"
+									rows="8" id="description" style="font-size: 1em"></textarea>
+								<span class="text-danger fw-bold mx-2"
+									th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}">Error description</span>
+							</div>
+						</div>
+						<div class="col-12 text-end">
+							<a class="btn btn-outline-dark" th:href="@{/product/addproduct}"><i
+								class="bi bi-arrow-clockwise"></i></a>
+							<button class="btn btn-primary" 
+								formaction="/product/save">
+								<i class="bi bi-floppy2"></i>
+							</button>
+
+						</div>
+					</form>
+     <!-- Thông báo thành công -->
+    <div id="success-notification" th:if="${successMessage}" class="notification text-muted success d-flex align-content-center rounded-3" style="font-size: 1.1em">
+        <i class="bi bi-check-circle-fill mb-2"></i>
+        <span th:text="${successMessage}"></span>
+    </div>
+    
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+</body>
+</html>

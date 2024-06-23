@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+<script type="text/javascript" th:src="@{/js/sidebar.js}"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="sidebar" class="collapse show pt-5" style="width: 330px; background-color: rgb(9, 2, 57);" id="collapseExample">
+            <div class="box-img-admin rounded-5 p-2 text-center mb-0 pb-0">
+                <img src="../images/minhdang.jpg" th:src="@{/images/minhdang.jpg}" width="80px" class="border border-3" style="border-radius: 50%;" alt="">
+                <div class="box-name text-white">
+                    <h4 class="mt-2" th:text="${session.user} ? ${session.user.username} : ''"></h4>
+                    <span class="text-white-50">Welcome your comeback!</span>
+                </div>
+            </div>
+            <hr style="border-top: 1px solid rgb(255, 255, 255);">
+            <div class="nav justify-content-center" style="height: 100vh; overflow-y: auto;">
+                <ul class="nav flex-column">
+                    <h6 class="text-white rounded-2 bg-warning px-3 p-2 mb-3 fw-bold"> <i
+                            class="bi bi-menu-button-wide-fill mx-1 " style="font-size: 1.4em;"></i>
+                        ADMINISTRATION TOOL</h6>
+                    <li class="nav-item ">
+                        <div class="collapse show" style="font-size: 0.9em;" id="collapseDashboards"
+                            data-bs-parent="#accordion">
+                            <ul class="nav flex-column">
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href=@{/product/index}>
+                                    <i class="bi bi-stack me-3 fs-5"></i>Product Management</a>
+                                </li>
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href=@{/category/index}>
+                                        <i class="bi bi-bookmarks fs-5 me-3"></i>Categories Management</a>
+                                </li>
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href=@{/user/index}>
+                                        <i class="bi bi-people-fill fs-5 me-3"></i>Customer Management</a>
+                                </li>
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href=@{/admin/order/index}>
+                                        <i class="bi bi-truck fs-5 me-3"></i>Order Management</a>
+                                </li>
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href="@{/admin/report/index}">
+                                        <i class="bi bi-flag fs-5 me-3"></i>Report Management</a>
+                                </li>
+                                <hr class="p-0 m-1 text-white">
+                                <li class="nav-item pb-1">
+                                    <a class="nav-link text-white" th:href="@{/logout}">
+                                        <i class="bi bi-box-arrow-in-right fs-5 me-3"></i>Đăng xuất</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+ </body>
+</html>
