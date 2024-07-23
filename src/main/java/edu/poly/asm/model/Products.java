@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,17 +37,18 @@ public class Products implements Serializable {
 	private String description;
 	@NotNull(message = "{NotNull.product.price}")
 	private Float price;
-	
+
 	private Float discount;
 	@NotNull(message = "{NotNull.product.quantity}")
 	private Integer quantity;
 	private String image;
 	private boolean status;
 	private Date createdate;
-	
+
 	@OneToMany(mappedBy = "productid")
+	@JsonBackReference
 	List<Orderdetails> orderdetail;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "categoryid")
 	@NotNull(message = "{NotNull.product.categoryid}")

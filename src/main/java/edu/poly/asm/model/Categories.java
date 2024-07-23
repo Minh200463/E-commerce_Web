@@ -3,6 +3,8 @@ package edu.poly.asm.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +29,8 @@ public class Categories implements Serializable {
 	private Integer categoryid;
 	@NotEmpty(message = "{NotEmpty.category.name}")
 	private String categoryname;
-	
+
 	@OneToMany(mappedBy = "productid")
+	@JsonBackReference
 	List<Products> products;
 }

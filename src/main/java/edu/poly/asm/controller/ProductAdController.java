@@ -45,24 +45,23 @@ public class ProductAdController {
 	SessionService session;
 
 	@RequestMapping({ "index", "search" })
-	public String index(Model model, @RequestParam("p") Optional<Integer> p,
-			@RequestParam("keyword") Optional<String> kw) {
-		String kword = kw.orElse("");
-		Pageable pageable = PageRequest.of(p.orElse(0), 10); // 3 items per page
-		Page<Products> page;
-		if (kword.isEmpty()) {
-			page = productrepository.findAll(pageable);
-		} else {
-			page = productrepository.findByProductnameLike("%" + kword + "%", pageable);
-		}
-		model.addAttribute("items", page.getContent());
-		model.addAttribute("currentPage", page.getNumber());
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("keyword", kword);
-		
-		//Tổng số sản phẩm
-		long countProduct = productrepository.count();	
-		model.addAttribute("countProduct", countProduct);
+	public String index(Model model) {
+		// String kword = kw.orElse("");
+		// Pageable pageable = PageRequest.of(p.orElse(0), 10); // 3 items per page
+		// Page<Products> page;
+		// if (kword.isEmpty()) {
+		// page = productrepository.findAll(pageable);
+		// } else {
+		// page = productrepository.findByProductnameLike("%" + kword + "%", pageable);
+		// }
+		// model.addAttribute("items", page.getContent());
+		// model.addAttribute("currentPage", page.getNumber());
+		// model.addAttribute("totalPages", page.getTotalPages());
+		// model.addAttribute("keyword", kword);
+
+		// // Tổng số sản phẩm
+		// long countProduct = productrepository.count();
+		// model.addAttribute("countProduct", countProduct);
 		return "admin/products";
 	}
 
@@ -91,7 +90,7 @@ public class ProductAdController {
 			// Lưu file ảnh vào images
 			imagefile.transferTo(newFile);
 			item.setImage(filename);
-
+			System.out.println("Img:" + newFile);
 			System.out.println("Directory: " + directory);
 		} else {
 			item.setImage(imageName);

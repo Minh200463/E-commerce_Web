@@ -5,10 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
 <script type="text/javascript" th:src="@{/js/user.js}"></script>
 </head>
-<body>
+<body ng-app="app" ng-controller="ctrl">
 	<div layout:fragment="content" class="container mt-3 rounded-2"
 		style="font-size: 0.9em;">
 		<div class="div px-2 bg-danger rounded-2">
@@ -28,7 +29,7 @@
 								User</label> <input type="text" class="form-control bg-secondary-subtle"
 								id="validationCustom01" style="font-size: 1em;" name="userid"
 								placeholder="Auto-increment ID"
-								th:value="${user} ? ${user.userid} : ''" readonly>
+								ng-model="form.userid" readonly>
 							<div class="valid-feedback">Looks good!</div>
 						</div>
 
@@ -36,49 +37,34 @@
 							<label for="validationCustom05" class="form-label fw-bold">Username</label>
 							<input type="text" class="form-control bg-secondary-subtle"
 								style="font-size: 1em;" id="validationCustom05" name="username"
-								th:value="${user} ? ${user.username} : ''"> <span
-								class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error
-								Username</span>
+								ng-model="form.username"> 
 						</div>
 						<div class="col-md-6">
 							<label for="validationCustom05" class="form-label fw-bold">Fullname</label>
 							<input type="text" class="form-control bg-secondary-subtle"
 								style="font-size: 1em;" id="validationCustom05" name="fullname"
-								
-								th:value="${user} ? ${user.fullname} : ''"> <span
-								class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}">Error
-								Fullname</span>
+								ng-model="form.fullname"> 
 						</div>
 						<div class="col-md-6">
 							<label for="validationCustom05" class="form-label fw-bold">Password</label>
 							<input type="password" class="form-control bg-secondary-subtle"
 								style="font-size: 1em;" id="validationCustom05" name="password"
-								
-								th:value="${user} ? ${user.password} : ''"> <span
-								class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error
-								Password</span>
+								ng-model="form.password"> 
 						</div>
 						<div class="col-md-6">
 							<label for="validationCustom05" class="form-label fw-bold">Phone</label>
-							<input type="number" class="form-control bg-secondary-subtle"
+							<input type="text" class="form-control bg-secondary-subtle"
 								style="font-size: 1em;" id="validationCustom05" name="phone"
-								 th:value="${user} ? ${user.phone} : ''">
-							<span class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Error
-								Phone</span>
+								ng-model="form.phone">
+							
 						</div>
 
 						<div class="col-md-6">
 							<label for="validationCustom05" class="form-label fw-bold">Email</label>
 							<input type="email" class="form-control bg-secondary-subtle"
 								style="font-size: 1em;" id="validationCustom05" name="email"
-								th:value="${user} ? ${user.email} : ''">
-							<span class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error
-								Email</span>
+								ng-model="form.email">
+							
 						</div>
 
 						<div class="col-md-6">
@@ -88,13 +74,15 @@
 									<input class="form-check-input"
 										 type="radio" name="gender"
 										id="inlineRadio1" value="true"
-										th:checked="${user == null or user.gender}"> <label
+										ng-model="form.gender"
+										ng-checked="form.gender === true"> <label
 										class="form-check-label" for="inlineRadio1">Nam</label>
 								</div>
 								<div class="form-check form-check">
 									<input class="form-check-input" 
 										type="radio" name="gender" id="inlineRadio2" value="false"
-										th:checked="${user != null and !user.gender}"> <label
+										ng-model="form.gender"
+										ng-checked="form.gender === false"> <label
 										class="form-check-label" for="inlineRadio2">Nữ</label>
 								</div>
 							</div>
@@ -105,11 +93,9 @@
 								<label for="validationCustom05" class="form-label fw-bold">Address</label>
 								<textarea class="form-control bg-secondary-subtle" rows="3"
 									id="address" style="font-size: 1em" name="address"
-									th:text="${user} ? ${user.address} : ''"></textarea>
+									ng-model="form.address"></textarea>
 							</div>
-							<span class="text-danger fw-bold mx-2"
-								th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Error
-								Address</span>
+							
 						</div>
 
 						<div class="col-12 text-end mt-5">
@@ -134,3 +120,7 @@
 
 </body>
 </html>
+<!-- <span
+								class="text-danger fw-bold mx-2"
+								th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error
+								Username</span> -->

@@ -6,10 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/category.css}">
 <script type="text/javascript" th:src="@{/js/category.js}"></script>
 </head>
-<body>
+<body ng-app="app" ng-controller="ctrl">
 	<div layout:fragment="content" class="container mt-3">
 		<h4
 			class="border-bottom border-dark rounded-3 border-3 p-2 px-4 text-dark">Edition
@@ -24,22 +25,20 @@
 							<h5 class="fw-bold">Add or Edit</h5>
 						</div>
 						<div class="card-body">
-							<form th:action="@{/category/save}" th:object=${category}
+							<form action="" th:object=${category}
 								method="post">
 								<div class="row g-3">
 									<div class="col-lg-12">
 										<label for="categoryid" class="h5 p-0">ID Category</label> <input
 											type="text" id="categoryid" class="form-control fw-bold"
-											name="categoryid"
-											th:value="${(item != null)} ? ${item.categoryid} : ''"
+											name="categoryid" ng-model="form.categoryid"
 											placeholder="Auto-increment ID" readonly>
 								
 									</div>
 									<div class="col-lg-12">
 										<label for="categoryname" class="h5 p-0">CategoryName</label>
 										<input type="text" id="categoryname" class="form-control"
-											name="categoryname"
-											th:value="${item != null} ? ${item.categoryname} : ''"
+											name="categoryname" ng-model="form.categoryname"
 											placeholder="Enter categoryname...">
 									<span class="text-danger fw-bold mx-2" style="font-size: 0.8em" th:if="${#fields.hasErrors('categoryname')}" th:errors="*{categoryname}">Error Name</span>
 									</div>
@@ -47,17 +46,14 @@
 								<div class="text-center mt-4">
 
 									<div class="div d-flex justify-content-end">
-										<a th:href="@{/category/index}"
+										<a ng-click="reset()"
 											class="btn btn-outline-dark btn-reset"><i
 											class="bi bi-arrow-clockwise"></i></a>
-										<button class="btn btn-success btn-save mx-2"
-											formaction="/category/save">
+										<a class="btn btn-success btn-save mx-2" ng-click="save()">
 											<i class="bi bi-floppy2"></i>
-										</button>
-										<a th:if="${item != null}"
-											href="/category/delete/${categoryid}"
-											th:href="@{/category/delete/{id}(id=${item.categoryid})}"
-											class="btn btn-danger btn-delete"> <i class="bi bi-trash"></i>
+										</a>
+										<a th:if="${item != null}" ng-click="update()"
+											class="btn btn-warning btn-delete"> <i class="bi bi-check2-circle"></i>
 										</a>
 									</div>
 								</div>
@@ -87,17 +83,15 @@
 								<tbody>
 
 									<!-- user1 -->
-									<tr th:each="item : ${items}" class="text-center">
-										<td th:text="${item.categoryid}"></td>
-										<td th:text="${item.categoryname}"></td>
-										<td class="text-end"><a class="btn btn-primary"
-											href="/category/edit/${categoryid}"
-											th:href="@{/category/edit/{id}(id=${item.categoryid})}"><i
-												class="bi bi-pencil-square"></i></a> <a class="btn btn-warning"
-											href="/category/delete/${categoryid}"
-											th:href="@{/category/delete/{id}(id=${item.categoryid})}"><i
-												class="bi bi-trash"></i></a></td>
+									<tr ng-repeat="item in items" class="text-center">
+										<td>{{item.categoryid}}</td>
+										<td>{{item.categoryname}}</td>
+										<td class="text-end">
+											<a class="btn btn-primary" ng-click="edit(item.categoryid)"><i class="bi bi-pencil-square"></i></a> 
+											<a class="btn btn-warning" ng-click="delete(item.categoryid)"><i class="bi bi-trash"></i></a>
+										</td>
 									</tr>
+								
 								</tbody>
 							</table>
 						</div>

@@ -2,6 +2,9 @@ package edu.poly.asm.model;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Users")
 public class Users implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userid;
 	@NotEmpty(message = "{NotEmpty.user.username}")
 	private String username;
@@ -31,13 +35,13 @@ public class Users implements Serializable {
 	private String fullname;
 	@NotEmpty(message = "{NotEmpty.user.email}")
 	private String email;
-	@NotNull(message = "{NotNull.user.phone}")
+	@NotEmpty(message = "{NotNull.user.phone}")
 	private String phone;
 	private boolean admin;
 	private String address;
 	private boolean gender;
-	
-	
+
 	@OneToMany(mappedBy = "userid")
+	@JsonBackReference
 	List<Orders> orders;
 }

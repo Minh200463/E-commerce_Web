@@ -30,35 +30,39 @@ public class UserController {
 
 	@Autowired
 	UserReponsitory userreponsitory;
-	
-	
 
-	@RequestMapping({ "index", "search" })
-	public String index(Model model, @RequestParam("p") Optional<Integer> p,
-			@RequestParam("keyword") Optional<String> kw) {
-		String kword = kw.orElse("");
-		Pageable pageable = PageRequest.of(p.orElse(0), 10); // 10 items per page
-		Page<Users> page;
-		if (kword.isEmpty()) {
-			page = userservice.findAll(pageable);
-		} else {
-			page = userreponsitory.findByUsernameLike("%" + kword + "%", pageable);
-		}
-		model.addAttribute("items", page.getContent());
-		model.addAttribute("currentPage", page.getNumber());
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("keyword", kword);
+	@RequestMapping("index")
+	public String index() {
 		return "admin/user";
 	}
 
+	// @RequestMapping({ "index", "search" })
+	// public String index(Model model, @RequestParam("p") Optional<Integer> p,
+	// @RequestParam("keyword") Optional<String> kw) {
+	// String kword = kw.orElse("");
+	// Pageable pageable = PageRequest.of(p.orElse(0), 10); // 10 items per page
+	// Page<Users> page;
+	// if (kword.isEmpty()) {
+	// page = userservice.findAll(pageable);
+	// } else {
+	// page = userreponsitory.findByUsernameLike("%" + kword + "%", pageable);
+	// }
+	// model.addAttribute("items", page.getContent());
+	// model.addAttribute("currentPage", page.getNumber());
+	// model.addAttribute("totalPages", page.getTotalPages());
+	// model.addAttribute("keyword", kword);
+	// return "admin/user";
+	// }
+
 	@RequestMapping("adduser")
 	public String add_user(Model model) {
-		model.addAttribute("user", new Users());
+		// model.addAttribute("user", new Users());
 		return "admin/add_user";
 	}
 
 	@RequestMapping("save")
-	public String save(@Valid @ModelAttribute("user") Users item, BindingResult result, Model model, RedirectAttributes redirectatribute) {
+	public String save(@Valid @ModelAttribute("user") Users item, BindingResult result, Model model,
+			RedirectAttributes redirectatribute) {
 		if (result.hasErrors()) {
 			return "admin/add_user";
 		}
@@ -66,21 +70,21 @@ public class UserController {
 		userservice.save(item);
 		return "admin/add_user";
 	}
-	
+
 	@RequestMapping("edit/{id}")
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		Optional<Users> user = userservice.findById(id);
 		model.addAttribute("user", user.get());
 		return "admin/add_user";
 	}
-	
+
 	@RequestMapping("delete/{id}")
 	public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectatribute) {
 		redirectatribute.addFlashAttribute("successMessage", "Delete successfully!");
 		userservice.deleteById(id);
 		return "redirect:/user/index";
 	}
-	
+
 	@RequestMapping("deleteall")
 	public String deleteall(Model model) {
 		userservice.deleteAll();

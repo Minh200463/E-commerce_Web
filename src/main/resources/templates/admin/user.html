@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout.html}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
-<script type="text/javascript" th:src="@{/js/user.js}"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+	<script type="text/javascript" th:src="@{/js/user.js}"></script>
 </head>
-<body>
-	<div layout:fragment="content" class="container mt-3 rounded-2"
-		style="font-size: 0.9em;">
+
+<body ng-app="app" ng-controller="ctrl">
+	<div layout:fragment="content" class="container mt-3 rounded-2" style="font-size: 0.9em;">
 		<div class="div px-2 bg-danger rounded-2">
 			<h6 class="border-3 p-2 px-4 bg-light text-dark">List User</h6>
 		</div>
@@ -18,8 +19,9 @@
 		<div class="container-fluid p-0">
 			<div class="bg-white align-midle pt-2 rounded-2">
 				<div class="box-button-funtion p-2">
-					<a type="button" class="btn" th:href="@{/user/adduser}"
-						style="background-color: rgb(109, 233, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+					<a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+					ng-click="reset()"	
+					style="background-color: rgb(109, 233, 97); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
 						<i class="bi bi-plus "></i>Create new user
 					</a>
 					<button type="button" class="btn"
@@ -42,9 +44,8 @@
 						<div class="box-search">
 							<div class="container-fluid">
 								<form class="d-flex" th:action="@{/user/search}" method="post">
-									<input class="form-control me-1"
-										style="height: 35px; font-size: 0.9em;" type="search"
-										placeholder="Search..." aria-label="Search" name="keyword">
+									<input class="form-control me-1" style="height: 35px; font-size: 0.9em;"
+										type="search" placeholder="Search..." aria-label="Search" name="keyword">
 									<button class="btn"
 										style="background-color: rgb(76, 201, 215); --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
 										<i class="bi bi-search"></i>
@@ -68,48 +69,162 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="align-middle" th:each="item : ${items}">
-									<td th:text="${item.userid}"></td>
-									<td th:text="${item.username}"></td>
-									<td th:text="${item.fullname}"></td>
-									<td th:text="${item.gender} ? 'Male' : 'Female' "></td>
-									<td th:text="${item.phone}"></td>
-									<td th:text="${item.address}"></td>
-									<td th:text="${item.email}"></td>
-									<td><a class="btn btn-primary" style="font-size: 0.8em;"
-										th:href="@{/user/edit/{id} (id = ${item.userid})}"><i
-											class="bi bi-pencil-square"></i></a> <a class="btn btn-warning"
-										style="font-size: 0.8em;"
-										th:href="@{/user/delete/{id} (id = ${item.userid})}"><i
-											class="bi bi-trash"></i></a></td>
+								<tr class="align-middle" ng-repeat="item in items">
+									<td>{{item.userid}}</td>
+									<td>{{item.username}}</td>
+									<td>{{item.fullname}}</td>
+									<td>{{item.gender ? 'Male' : 'Female'}}</td>
+									<td>{{item.phone}}</td>
+									<td>{{item.address}}</td>
+									<td>{{item.email}}</td>
+									<td><a class="btn btn-primary" ng-click="edit(item.userid)"
+											style="font-size: 0.8em;" data-bs-toggle="modal"
+											data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></a> <a
+											ng-click="delete(item.userid)"
+											class="btn btn-warning" style="font-size: 0.8em;"><i
+												class="bi bi-trash"></i></a></td>
 								</tr>
 
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<div class="box-pagination d-flex justify-content-center"
-					th:if="${items != null}">
+
+
+				<!--------------------------- Modal ------------------------>
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">USER DETAILS</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="container-fluid p-0 m-0">
+									<div class="bg-secondary-subtle align-midle pt-2 rounded-2">
+										<div class="form-info-products p-3" style="font-size: 0.9em;">
+											<form class="row g-3 needs-validation"
+												th:object="${user}" method="post">
+												<div class="col-md-6">
+													<label for="validationCustom01" class="form-label fw-bold">ID
+														User</label> <input type="text" class="form-control"
+														id="validationCustom01" style="font-size: 1em;" name="userid"
+														placeholder="Auto-increment ID" ng-model="form.userid" readonly>
+													<div class="valid-feedback">Looks good!</div>
+												</div>
+
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Username</label>
+													<input type="text" class="form-control " style="font-size: 1em;"
+														id="validationCustom05" name="username"
+														ng-model="form.username">
+													<div ng-if="errors.includes('Please enter username!')" class="text-danger">Username is required</div>
+												</div>
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Fullname</label>
+													<input type="text" class="form-control " style="font-size: 1em;"
+														id="validationCustom05" name="fullname"
+														ng-model="form.fullname">
+														<div ng-if="errors.includes('Please enter fullname!')" class="text-danger">Fullname is required</div>
+												</div>
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Password</label>
+													<input type="password" class="form-control " style="font-size: 1em;"
+														id="validationCustom05" name="password"
+														ng-model="form.password">
+														<div ng-if="errors.includes('Please enter password!')" class="text-danger">Password is required</div>
+												</div>
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Phone</label>
+													<input type="text" class="form-control " style="font-size: 1em;"
+														id="validationCustom05" name="phone" ng-model="form.phone">
+														<div ng-if="errors.includes('Please enter phone!')" class="text-danger">Phone is required</div>
+
+												</div>
+
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Email</label>
+													<input type="email" class="form-control " style="font-size: 1em;"
+														id="validationCustom05" name="email" ng-model="form.email">
+														<div ng-if="errors.includes('Please enter email!')" class="text-danger">Email is required</div>
+
+												</div>
+
+												<div class="col-md-6">
+													<label for="validationCustom05"
+														class="form-label fw-bold">Gender</label>
+													<div class="form-outline d-flex">
+														<div class="form-check form-check me-3">
+															<input class="form-check-input" type="radio" name="gender"
+																id="inlineRadio1" value="true" ng-model="form.gender"
+																ng-checked="form.gender === true"> <label
+																class="form-check-label" for="inlineRadio1">Nam</label>
+														</div>
+														<div class="form-check form-check">
+															<input class="form-check-input" type="radio" name="gender"
+																id="inlineRadio2" value="false" ng-model="form.gender"
+																ng-checked="form.gender === false"> <label
+																class="form-check-label" for="inlineRadio2">Nữ</label>
+														</div>
+													</div>
+												</div>
+
+												<div class="col-md-6">
+													<div class="box-description-product">
+														<label for="validationCustom05"
+															class="form-label fw-bold">Address</label>
+														<textarea class="form-control " rows="3" id="address"
+															style="font-size: 1em" name="address"
+															ng-model="form.address"></textarea>
+													</div>
+
+												</div>
+											</form>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="col-12 text-end mt-2">
+									<a class="btn btn-sm btn-outline-dark" ng-click="reset()">Reset</a>
+									<button class="btn btn-sm btn-primary" ng-click="save()" id="successButton" type="submit">Save</button>
+									<div class="bg-success" th:if="${message}" id="successMessage">
+										<span class="fw-bold"><i class="bi bi-check-circle mx-2"
+												th:text=${message}></i></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="box-pagination d-flex justify-content-center" ng-if="totalPages > 1">
 					<nav aria-label="Page navigation example">
 						<ul class="pagination">
-							<li class="page-item"
-								th:classappend="${currentPage == 0} ? 'disabled'"><a
-								class="page-link"
-								th:href="@{'index?p=' + (${currentPage} - 1) + '&keyword=' + ${keyword}}"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"
-								th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-								th:classappend="${currentPage == i} ? 'active'"><a
-								class="page-link"
-								th:href="@{'index?p=' + ${i} + '&keyword=' + ${keyword}}"
-								th:text="${i + 1}"></a></li>
-							<li class="page-item"
-								th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-								<a class="page-link"
-								th:href="@{'index?p=' + (${currentPage} + 1) + '&keyword=' + ${keyword}}"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a>
+							<li class="page-item" ng-class="{ 'disabled': currentPage == 0 }">
+								<a class="page-link" href="#" ng-click="setPage(currentPage - 1)" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li class="page-item" ng-repeat="i in [].constructor(totalPages) track by $index"
+								ng-class="{ 'active': isActive($index) }">
+								<a class="page-link" href="#" ng-click="setPage($index)">
+									{{ $index + 1 }}
+								</a>
+							</li>
+							<li class="page-item" ng-class="{ 'disabled': currentPage == totalPages - 1 }">
+								<a class="page-link" href="#" ng-click="setPage(currentPage + 1)" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
 							</li>
 						</ul>
 					</nav>
@@ -119,4 +234,5 @@
 		</div>
 	</div>
 </body>
+
 </html>
