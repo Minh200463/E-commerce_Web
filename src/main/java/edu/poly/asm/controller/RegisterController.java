@@ -1,6 +1,7 @@
 package edu.poly.asm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,36 +21,39 @@ import jakarta.validation.Valid;
 public class RegisterController {
 	@Autowired
 	UserService userservice;
-	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	@GetMapping("index")
 	public String index(Model model) {
 		model.addAttribute("user", new Users());
 		return "login/register";
 	}
-	
+
 	@PostMapping("index")
-	public String index(@Valid @ModelAttribute("user") Users item, BindingResult result, Model model, RedirectAttributes redirectAttributes,
-	                    @RequestParam("password") String pw, @RequestParam("repassword") String rpw) {
+	public String index(@Valid @ModelAttribute("user") Users item, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes,
+			@RequestParam("password") String pw, @RequestParam("repassword") String rpw) {
 
-		System.out.println("Repassword: "+rpw);
-	    if (result.hasErrors()) {
-	        return "login/register";
-	    }
+		System.out.println("Repassword: " + rpw);
+		if (result.hasErrors()) {
+			return "login/register";
+		}
 
-	    if (rpw == null || rpw.isEmpty()) {
-	        model.addAttribute("errorrepassword", "Please enter the repassword!");
-	        return "login/register";
-	    }
+		if (rpw == null || rpw.isEmpty()) {
+			model.addAttribute("errorrepassword", "Please enter the repassword!");
+			return "login/register";
+		}
 
-	    if (!rpw.equals(pw)) {
-	        model.addAttribute("errorrepassword", "Passwords do not match!");
-	        return "login/register";
-	    }
+		if (!rpw.equals(pw)) {
+			model.addAttribute("errorrepassword", "Passwords do not match!");
+			return "login/register";
+		}
 
-	    userservice.save(item);
-	    redirectAttributes.addFlashAttribute("successMessage", "Registration Success!");
-	    return "redirect:/login/index";
+		item.setPassword(passwordEncoder.encode(item.getPassword()));
+		userservice.save(item);
+		redirectAttributes.addFlashAttribute("successMessage", "Registration Success!");
+		return "redirect:/login/index";
 	}
 
-	
 }

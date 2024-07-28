@@ -1,36 +1,4 @@
-// function updateStatus() {
-// 	var quantity = parseInt(document.getElementById('quantity').value);
-// 	var statusSelect = document.getElementById('status');
-
-// 	if (isNaN(quantity) || quantity <= 0) {
-// 		statusSelect.value = false; // Out Of Stock
-// 	} else {
-// 		statusSelect.value = true; // In Stock
-// 	}
-// }
-
 document.addEventListener('DOMContentLoaded', function() {
-// const input = document.getElementById('file-input');
-//     const image = document.getElementById('img-preview');
-//     const deleteButton = document.getElementById('delete-button');
-
-//     input.addEventListener('change', (e) => {
-//       if (e.target.files.length) {  
-// // URL.createObjectURL là một phương thức tạo ra một URL tạm thời trỏ đến tệp đã chọn.
-// // e.target.files[0] lấy tệp đầu tiên (và thường là duy nhất) trong danh sách các tệp đã chọn.
-//         const src = URL.createObjectURL(e.target.files[0]);
-//         image.src = src;
-//         deleteButton.classList.add('show');
-//       }
-//     });
-
-//     deleteButton.addEventListener('click', () => {
-//       image.src = '';
-//       input.value = '';
-//       deleteButton.classList.remove('show');
-//     }); 
-    
-    
     //Thông báo success
     const successNotification = document.getElementById('success-notification');
 
@@ -47,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
 let host = "http://localhost:8080/admin/products"
 const app = angular.module("app", []);
 app.controller("ctrl", function ($scope, $http){
-  const input = document.getElementById('file-input');
+  const fileInput = document.getElementById('file-input');
   const image = document.getElementById('img-preview');
   const deleteButton = document.getElementById('delete-button');
-  const scope = angular.element(input).scope();
+  const scope = angular.element(fileInput).scope();
   
-  input.addEventListener('change', (e) => {
+  fileInput.addEventListener('change', (e) => {
     if (e.target.files.length) {  
-      const src = URL.createObjectURL(e.target.files[0]);
+      var src = URL.createObjectURL(e.target.files[0]);
       scope.$apply(function() {
         scope.form.image = e.target.files[0].name;  // cập nhật biến model trong AngularJS
       });
@@ -69,12 +37,12 @@ app.controller("ctrl", function ($scope, $http){
       scope.form.image = null;  // cập nhật biến model trong AngularJS
     });
     image.src = '';
-    input.value = '';
+    fileInput.value = '';
     deleteButton.classList.remove('show');
   });
   
 
-
+//Change Status
   $scope.updateStatus = function() {
     var quantity = $scope.form.quantity;
 
@@ -122,24 +90,39 @@ app.controller("ctrl", function ($scope, $http){
 
 
 //SAVE
-  $scope.save = function(){
-    var item = angular.copy($scope.form)
-    console.log($scope.form);
-    $http.post(host, item, {
-        transformRequest : angular.identity,
-        headers : {'Content-Type': undefined}
-    }).then(resp => {
-      console.log(resp.data);
-        $scope.getPage($scope.currentPage);
-        $scope.reset();
-    }).catch(err => {
-      if(err.status === 400 && err.data){
-        $scope.errors = err.data
-      }else{
-        console.log("Error"+err);
+$scope.save = function () {
+  var formData = new FormData();
+  formData.append('products', new Blob([JSON.stringify($scope.form)], { type: 'application/json' }));
+  // formData.append('imageFile', fileInput.files[0]);
+  var nput = document.getElementById('file-input');
+    if (nput== null || nput.files.length <=0) {
+      formData.append('imageFile', null);
+    }else{
+      formData.append('imageFile', nput.files[0]);
+    }
+
+console.log("Form:", $scope.form);
+  $http.post(host, formData, {
+      headers: { 'Content-Type': undefined },
+      transformRequest: angular.identity
+  }).then(resp => {
+      console.log("Success: " + resp.data);
+      $scope.getPage($scope.currentPage);
+      $scope.reset();
+      image.src = "";
+  }).catch(err => {
+      if (err.status === 400 && err.data) {
+          $scope.errors = err.data;
+      } else {
+          console.log("Error: " + err);
       }
-    })
-  }
+  });
+};
+
+
+
+
+
 //EDIT
   $scope.item = {}
   $scope.edit = function(key){
@@ -159,8 +142,8 @@ app.controller("ctrl", function ($scope, $http){
     $scope.form = {}
     $scope.key = null
     $scope.errors = []
-    $scope.item = { image: ""}
-    console.log("Image"+$scope.item.image);
+    $scope.item = { image: ''}
+    fileInput.value = ''
   }
 
 //DELETE

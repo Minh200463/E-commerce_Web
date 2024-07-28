@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/order.js}"></script>
 </head>
-<body>
+<body ng-app="app" ng-controller="ctrl">
 	<div layout:fragment="content" class="container mt-3 rounded-2"
 		style="font-size: 0.8em;">
 		<div class="row">
@@ -66,29 +67,31 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="order : ${orderlist}" class="align-middle">
-											<td style="width: 25px" th:text="${order.orderid}"></td>
-											<td th:text="${order.userid.fullname}"></td>
-											<td th:text="${order.userid.address}"></td>
-											<td th:text="'$'+${order.totalamount}"></td>
-											<td th:text="${#dates.format(order.orderdate, 'dd-MM-yyyy')}"></td>
-											<td th:switch="${order.status}"><span th:case="1"
-												class="p-1 rounded-2 text-white"
-												style="font-size: 0.9em; background-color: rgb(71, 158, 202);">
-													Processing </span> <span th:case="2"
-												class="p-1 rounded-2 text-white"
-												style="font-size: 0.9em; background-color: rgb(223, 223, 17);">
-													Shipped </span> <span th:case="3" class="p-1 rounded-2 text-white"
-												style="font-size: 0.9em; background-color: rgb(0, 255, 255);">
-													Delivered </span> <span th:case="0"
-												class="p-1 rounded-2 text-white"
-												style="font-size: 0.9em; background-color: rgb(255, 0, 0);">
-													Cancelled </span></td>
-
+										<tr ng-repeat="order in items" class="align-middle">
+											<td style="width: 25px">{{order.orderid}}</td>
+											<td>{{order.userid.fullname}}</td>
+											<td>{{order.userid.address}}</td>
+											<td>{{order.totalamount}}</td>
+											<td>{{ order.orderdate | date:'dd-MM-yyyy' }}</td>
+											<td>
+												<span ng-if="order.status == 1" class="p-1 rounded-2 text-white" style="font-size: 0.9em; background-color: rgb(71, 158, 202);">
+													Processing
+												</span>
+												<span ng-if="order.status == 2" class="p-1 rounded-2 text-white" style="font-size: 0.9em; background-color: rgb(223, 223, 17);">
+													Shipped
+												</span>
+												<span ng-if="order.status == 3" class="p-1 rounded-2 text-white" style="font-size: 0.9em; background-color: rgb(0, 255, 255);">
+													Delivered
+												</span>
+												<span ng-if="order.status == 0" class="p-1 rounded-2 text-white" style="font-size: 0.9em; background-color: rgb(255, 0, 0);">
+													Cancelled
+												</span>
+											</td>
 											<td><a class="btn btn-primary" style="font-size: 0.8em;"
-												th:href="@{/admin/order/details/{id} (id=${order.orderid})}">
+												ng-click="edit(order.orderid)">
 													<i class="bi bi-pencil-square"></i>
 											</a></td>
+
 
 										</tr>
 										<!-- Repeat similar structure for more orders as needed -->
@@ -96,18 +99,25 @@
 								</table>
 							</div>
 						</div>
-						<div class="box-pagination d-flex justify-content-center">
+						<div class="box-pagination d-flex justify-content-center" ng-if="totalPages > 1">
 							<nav aria-label="Page navigation example">
 								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
+									<li class="page-item" ng-class="{ 'disabled': currentPage == 0 }">
+										<a class="page-link" href="#" ng-click="setPage(currentPage - 1)" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" ng-repeat="i in [].constructor(totalPages) track by $index"
+										ng-class="{ 'active': isActive($index) }">
+										<a class="page-link" href="#" ng-click="setPage($index)">
+											{{ $index + 1 }}
+										</a>
+									</li>
+									<li class="page-item" ng-class="{ 'disabled': currentPage == totalPages - 1 }">
+										<a class="page-link" href="#" ng-click="setPage(currentPage + 1)" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
 								</ul>
 							</nav>
 						</div>
@@ -134,69 +144,68 @@
 										<dl class="row">
 											<div class="col-6">
 												<div>
-													<span class="fw-bold col-sm-4 mt-2">Name : </span> <span
-														th:text="${order} ? ${order.userid.fullname} : ''"></span>
+													<span class="fw-bold col-sm-4 mt-2">Name : </span> 
+													<span>{{ item[0].orderid.userid.fullname }}</span>
 												</div>
 												<div>
-													<span class="fw-bold col-sm-4 mt-2">Phone : </span> <span
-														th:text="${order} ? ${order.userid.phone} : ''"></span>
+													<span class="fw-bold col-sm-4 mt-2">Phone : </span> 
+													<span>{{ item[0].orderid.userid.phone }}</span>
 												</div>
 												<div>
-													<span class="fw-bold col-sm-4 mt-2">Address : </span> <span
-														th:text="${order} ? ${order.userid.address} : ''"></span>
+													<span class="fw-bold col-sm-4 mt-2">Address : </span> 
+													<span>{{ item[0].orderid.userid.address }}</span>
 												</div>
 											</div>
 											<div class="col-6">
 												<div>
-													<span class="fw-bold col-sm-4 mt-2">Date Order : </span><span
-														th:text="${order} ? ${#dates.format(order.orderdate, 'dd-MM-yyyy HH:mm:ss')}"></span>
+													<span class="fw-bold col-sm-4 mt-2">Date Order : </span>
+													<span>{{ item[0].orderid.orderdate | date:'dd-MM-yyyy HH:mm:ss' }}</span>
 												</div>
 												<div>
-													<span class="fw-bold col-sm-4 mt-2">Email : </span><span
-														th:text="${order} ? ${order.userid.email} : ''"></span>
+													<span class="fw-bold col-sm-4 mt-2">Email : </span>
+													<span>{{ item[0].orderid.userid.email }}</span>
 												</div>
 											</div>
 										</dl>
+										
 									</div>
 								</div>
-								<div class="card shadow-0 border mb-4">
-									<div class="card-body">
-										<div th:each="item : ${odetails}" th:if="${odetails}">
-											<div class="box-img d-flex justify-content-center">
-												<img
-													th:src="@{/images/{image} (image=${item.productid.image})}"
-													class="img-fluid" width="100px" alt="Phone">
-											</div>
-											<div class="row">
-												<div class="col-9">
-													<p class="text-muted mb-0"
-														th:text="${item} ? ${item.productid.productname} : ''"></p>
+								
+									<div class="card shadow-0 border mb-4">
+										<div class="card-body">
+											<div ng-repeat="detail in item" >
+												<div class="box-img d-flex justify-content-center">
+													<img
+														ng-src="/images/{{detail.productid.image}}"
+														class="img-fluid" width="100px" alt="Phone">
 												</div>
-												<div class="col-3 p-0 m-0">
-													<p class="text-muted mb-0 p-0">
-														<span class="fw-bold me-2">Price</span> <span
-															th:text="'$'+${item.productid.price}"></span>
-													</p>
-													<span class="ms-3" th:text="${item.quantity}"></span>
-													<p class="text-muted mb-0 p-0">
-														<span class="fw-bold me-2">Total</span> <span
-															th:text="'$'+${item.unitprice}"></span>
-													</p>
+												<div class="row">
+													<div class="col-9">
+														<p class="text-muted mb-0">{{detail.productid.productname}}</p>
+													</div>
+													<div class="col-3 p-0 m-0">
+														<p class="text-muted mb-0 p-0">
+															<span class="fw-bold me-2">Price</span> <span>{{'$'+detail.productid.price}}</span>
+														</p>
+														<span class="ms-3">{{'x'+detail.quantity}}</span>
+														<p class="text-muted mb-0 p-0">
+															<span class="fw-bold me-2">Total</span> <span>{{'$'+detail.unitprice}}</span>
+														</p>
+													</div>
 												</div>
+	
 											</div>
-
+											<hr class="mb-4"
+												style="background-color: #e0e0e0; opacity: 1;">
 										</div>
-										<hr class="mb-4"
-											style="background-color: #e0e0e0; opacity: 1;">
 									</div>
-								</div>
-
-								<div class="d-flex justify-content-end mb-4">
-									<p class="text-muted mb-0 fs-6">
-										<span class="fw-bold me-2 fs-6">Total</span><span
-											th:text="${order} ? '$'+${order.totalamount} : '$'"></span>
-									</p>
-								</div>
+	
+									<div class="d-flex justify-content-end mb-4">
+										<p class="text-muted mb-0 fs-6">
+											<span class="fw-bold me-2 fs-6">Payable amount</span><b class="text-danger">{{'$'+item[0].orderid.totalamount}}</b>
+										</p>
+									</div>
+								
 							</div>
 						</div>
 					</div>

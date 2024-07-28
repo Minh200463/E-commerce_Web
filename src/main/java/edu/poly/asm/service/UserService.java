@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import edu.poly.asm.model.Users;
 
@@ -75,5 +77,7 @@ public interface UserService {
 	<S extends Users> List<S> saveAll(Iterable<S> entities);
 
 	<S extends Users> S save(S entity);
+
+	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
 }

@@ -4,20 +4,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import edu.poly.asm.model.Users;
 import edu.poly.asm.repository.UserReponsitory;
 import edu.poly.asm.service.UserService;
 
+@Primary
 @Service
-public class UserImpl implements UserService {
-	
+public class UserImpl implements UserService, UserDetailsService {
+
 	UserReponsitory userrepository;
 
 	public UserImpl(UserReponsitory userrepository) {
@@ -178,7 +184,27 @@ public class UserImpl implements UserService {
 	public void deleteAll() {
 		userrepository.deleteAll();
 	}
-	
-	
-	
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<Users> user = userrepository.findByUsername(username);
+		if (user.isPresent()) {
+			var userObj = user.get();
+			return User.builder()
+					.username(userObj.getUsername())
+					.password(userObj.getPassword())
+					.roles(getRoles(userObj))
+					.build();
+		} else {
+			throw new UsernameNotFoundException(username);
+		}
+	}
+
+	private String getRoles(Users userObj) {
+		if (userObj.isAdmin()) {
+			return "ADMIN";
+		} else {
+			return "USER";
+		}
+	}
 }

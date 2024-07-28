@@ -8,6 +8,6 @@ public class AssignmentJava5Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AssignmentJava5Application.class, args);
-	}	
+	}
 
 }

@@ -64,7 +64,7 @@
 									<div class="mb-3">
 										<label for="" class="form-label mt-3">Fullname</label> <input
 											type="text" name="fullname" id="fullname"
-											th:value="${session.user} ? ${session.user.fullname} : ''"
+											th:value="${session.userdetail} ? ${session.userdetail.fullname} : ''"
 											class="form-control" required />
 										<!-- Username -->
 										<label for="validationDefaultUsername" class="form-label mt-3">Username</label>
@@ -72,7 +72,7 @@
 											<span class="input-group-text bg-secondary"
 												id="inputGroupPrepend2">@</span> <input type="text"
 												class="form-control" name="username"
-												th:value="${session.user} ? ${session.user.username} : ''"
+												th:value="${session.userdetail} ? ${session.userdetail.username} : ''"
 												id="username" aria-describedby="inputGroupPrepend2" required>
 										</div>
 										<!-- Email -->
@@ -82,7 +82,7 @@
 												id="inputGroupPrepend2"><i
 												class="bi bi-envelope-open-fill pb-4"></i></span> <input
 												type="email" class="form-control" name="email"
-												th:value="${session.user} ? ${session.user.email} : ''"
+												th:value="${session.userdetail} ? ${session.userdetail.email} : ''"
 												id="email" aria-describedby="inputGroupPrepend2" required>
 										</div>
 
@@ -93,7 +93,7 @@
 												id="inputGroupPrepend2"><i
 												class="bi bi-telephone-forward-fill pb-4"></i></span> <input
 												type="text" class="form-control" name="phone"
-												th:value="${session.user} ? ${session.user.phone} : ''"
+												th:value="${session.userdetail} ? ${session.userdetail.phone} : ''"
 												id="phone" aria-describedby="inputGroupPrepend2" required>
 										</div>
 										<!-- City -->
@@ -109,7 +109,7 @@
 
 										<label for="" class="form-label mt-3">Address</label>
 										<textarea name="address" id="address" class="form-control"
-											placeholder="1234 main street" required th:text="${session.user} ? ${session.user.address} : ''"></textarea>
+											placeholder="1234 main street" required th:text="${session.userdetail} ? ${session.userdetail.address} : ''"></textarea>
 										<small id="helpId"
 											class="text-muted d-flex justify-content-end mx-2"><a
 											href="" class="">change address</a></small> <label for=""
