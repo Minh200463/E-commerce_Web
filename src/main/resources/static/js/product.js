@@ -93,13 +93,15 @@ app.controller("ctrl", function ($scope, $http){
 $scope.save = function () {
   var formData = new FormData();
   formData.append('products', new Blob([JSON.stringify($scope.form)], { type: 'application/json' }));
-  // formData.append('imageFile', fileInput.files[0]);
-  var nput = document.getElementById('file-input');
-    if (nput== null || nput.files.length <=0) {
-      formData.append('imageFile', null);
-    }else{
-      formData.append('imageFile', nput.files[0]);
-    }
+  formData.append('imageFile', fileInput.files[0]);
+  // var nput = document.getElementById('file-input');
+  //   if (nput== null || nput.files.length <=0) {
+  //     formData.append('imageFile', scope.form.image);
+  //     console.log("Image file"+scope.form.image);
+  //   }else{
+  //     formData.append('imageFile', nput.files[0]);
+  //     console.log("Image file"+nput.files[0]);
+  //   }
 
 console.log("Form:", $scope.form);
   $http.post(host, formData, {
@@ -131,6 +133,8 @@ console.log("Form:", $scope.form);
       $scope.form = resp.data;
       $scope.item = resp.data;
       $scope.key = key;
+      // $scope.form.image = image.src
+      console.log("image: " + scope.form.image);
       console.log(resp.data);
     }).catch(err =>{
       console.log("Error"+err);

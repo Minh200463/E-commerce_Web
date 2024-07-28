@@ -8,7 +8,7 @@
 <body>
 <div th:fragment="sidebar" class="collapse show pt-5" style="width: 330px; background-color: rgb(9, 2, 57);" id="collapseExample">
             <div class="box-img-admin rounded-5 p-2 text-center mb-0 pb-0">
-                <img src="../images/minhdang.jpg" th:src="@{/images/minhdang.jpg}" width="80px" class="border border-3" style="border-radius: 50%;" alt="">
+                <img th:src="@{/images/avatar.jpg}" width="80px" class="border border-3" style="border-radius: 50%;" alt="">
                 <div class="box-name text-white">
                     <h4 class="mt-2" th:text="${session.user} ? ${session.user.username} : ''"></h4>
                     <span class="text-white-50">Welcome your comeback!</span>

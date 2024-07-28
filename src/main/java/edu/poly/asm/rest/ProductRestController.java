@@ -67,9 +67,6 @@ public class ProductRestController {
             File newFile = new File(directory.getAbsolutePath() + File.separator + filename);
             imageFile.transferTo(newFile);
             products.setImage(filename);
-        } else {
-            System.out.println("Img is null");
-            products.setImage(null);
         }
 
         if (products.getProductid() == null || productService.existsById(products.getProductid())) {
