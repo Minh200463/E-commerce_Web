@@ -30,11 +30,17 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
-                // .requestMatchers("/cart/index", "/register/**", "/login/**").permitAll()
-                .requestMatchers("/admin/index").hasRole("ADMIN")
-                .requestMatchers("/user/index").hasAnyRole("USER", "ADMIN")
-                // .requestMatchers("/admin/index").permitAll()
-                // .requestMatchers("/user/index").permitAll()
+                .requestMatchers(
+                        "/checkout/view")
+                .authenticated()
+                .requestMatchers(
+                        "/admin/index",
+                        "/category/index",
+                        "/product/index",
+                        "/user/index",
+                        "/admin/report/index")
+                .hasRole("ADMIN")
+                // .requestMatchers("/user/index").hasAnyRole("USER", "ADMIN")
                 .anyRequest().permitAll())
                 .formLogin((form) -> form
                         .loginPage("/login/index")

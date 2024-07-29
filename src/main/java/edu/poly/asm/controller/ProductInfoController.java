@@ -30,22 +30,20 @@ public class ProductInfoController {
 	CartService cartservice;
 	@Autowired
 	SessionService session;
-	
+
 	@RequestMapping("add-item/{id}")
-	public String add_item(@PathVariable("id") Integer id, @RequestParam("quantity") Integer quantity, Model model, RedirectAttributes rdrattribute) {
-		
-		if(session.get("user", null)!= null) {
-			Products product = productservice.findById(id).orElse(null);
-			if (product != null) {
-				ItemCart item = new ItemCart();
-				BeanUtils.copyProperties(product, item);
-				cartservice.add(item, quantity);
-				rdrattribute.addFlashAttribute("success", item.getProductname());
-				session.set("countcart", cartservice.getCount());	
-			}			
-			return "redirect:/cart/index";
-		}else {
-			return "redirect:/login/index";
+	public String add_item(@PathVariable("id") Integer id, @RequestParam("quantity") Integer quantity, Model model,
+			RedirectAttributes rdrattribute) {
+
+		Products product = productservice.findById(id).orElse(null);
+		if (product != null) {
+			ItemCart item = new ItemCart();
+			BeanUtils.copyProperties(product, item);
+			cartservice.add(item, quantity);
+			rdrattribute.addFlashAttribute("success", item.getProductname());
+			session.set("countcart", cartservice.getCount());
 		}
+		return "redirect:/cart/index";
+
 	}
 }
